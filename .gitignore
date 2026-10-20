@@ -1,0 +1,40 @@
+# Build, test and coverage output
+**/bin/
+**/obj/
+**/TestResults/
+coverage/
+*.trx
+*.coverage
+*.coveragexml
+coverage.*
+artifacts/
+
+# Local tooling and package caches
+.local/
+.dotnet/
+.nuget/
+
+# IDE and user settings
+.vs/
+.idea/
+.vscode/
+*.user
+*.suo
+*.sln.docstates
+
+# Secrets and local overrides
+.env
+.env.*
+!.env.example
+**/appsettings.Local.json
+**/appsettings.*.Local.json
+*.pfx
+*.p12
+*.pem
+*.key
+
+# Logs and OS files
+*.log
+Thumbs.db
+Desktop.ini
+.DS_Store

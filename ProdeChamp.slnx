@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ProdeChamp.API/ProdeChamp.API.csproj" />
+    <Project Path="src/ProdeChamp.Application/ProdeChamp.Application.csproj" />
+    <Project Path="src/ProdeChamp.Domain/ProdeChamp.Domain.csproj" />
+    <Project Path="src/ProdeChamp.Infrastructure/ProdeChamp.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ProdeChamp.IntegrationTests/ProdeChamp.IntegrationTests.csproj" />
+    <Project Path="tests/ProdeChamp.UnitTests/ProdeChamp.UnitTests.csproj" />
+  </Folder>
+</Solution>
