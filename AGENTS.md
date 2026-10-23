@@ -54,3 +54,28 @@ Every completed task must report:
 Use docs/ as the source of truth for product and architecture decisions.
 
 Keep documentation synchronized with implementation.
+
+## GitHub Integration
+
+GitHub Issues are the source of truth for approved
+user stories.
+
+Use GitHub CLI (gh) to retrieve issues and
+pull request information when necessary.
+
+Workflow:
+1. Retrieve the GitHub Issue.
+2. Verify acceptance criteria.
+3. Work on a feature branch.
+4. Execute the appropriate agent Skill.
+5. Record results in the repository.
+6. Request human approval at stage boundaries.
+
+Permissions:
+- Reading Issues and Pull Requests is allowed.
+- Reading CI results is allowed.
+- Creating or updating Issues requires human approval.
+- Pushing branches requires human approval.
+- Creating Pull Requests requires human approval.
+- Merging Pull Requests is prohibited.
+- Never expose GitHub credentials or access tokens.
