@@ -11,3 +11,7 @@ This directory is the source of truth for product and architecture decisions. Sp
 | [testing/](testing/README.md) | Test strategy and verification commands |
 | [engineering-reports/](engineering-reports/sprint-0.md) | Completed work, actual results and limitations |
 | [interview-questions/](interview-questions/sprint-0.md) | Questions grounded in engineering decisions |
+
+Current story: [PRODE-001 plan](stories/PRODE-001/implementation-plan.md), [historical QA/RED evidence](stories/PRODE-001/qa-report.md), and [implementation engineering report](engineering-reports/PRODE-001-engineering-report.md). Scoring and the approved negative-input rejection pass all 44 local unit tests. Independent code review and human approval remain pending.
+
+Continuous integration: the [ci skill](../.agents/skills/ci/SKILL.md) configures and verifies GitHub Actions without deployment. Its [first application report](stories/PRODE-001/ci-report.md) records the successful local Release checks and pending remote execution.

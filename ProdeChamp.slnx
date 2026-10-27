@@ -1,4 +1,27 @@
 <Solution>
+  <Folder Name="/.agents/" />
+  <Folder Name="/.agents/skills/" />
+  <Folder Name="/.agents/skills/ci/">
+    <File Path=".agents/skills/ci/SKILL.md" />
+  </Folder>
+  <Folder Name="/.github/" />
+  <Folder Name="/.github/workflows/">
+    <File Path=".github/workflows/ci.yml" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="AGENTS.md" />
+  </Folder>
+  <Folder Name="/docs/" />
+  <Folder Name="/docs/engineering-reports/">
+    <File Path="docs/engineering-reports/PRODE-001-engineering-report.md" />
+    <File Path="docs/engineering-reports/PRODE-001-validation-engineering-report.md" />
+  </Folder>
+  <Folder Name="/docs/stories/" />
+  <Folder Name="/docs/stories/PRODE-001/">
+    <File Path="docs/stories/PRODE-001/implementation-plan.md" />
+    <File Path="docs/stories/PRODE-001/qa-report.md" />
+    <File Path="docs/stories/PRODE-001/ci-report.md" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/ProdeChamp.API/ProdeChamp.API.csproj" />
     <Project Path="src/ProdeChamp.Application/ProdeChamp.Application.csproj" />
