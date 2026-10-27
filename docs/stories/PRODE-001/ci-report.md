@@ -1,5 +1,7 @@
 # CI — Skill y aplicación a PRODE-001
 
+> Estado actualizado el 2026-10-27: revisión independiente **APPROVED**, publicación autorizada y [PR #3](https://github.com/DiegoDX/ProdeChampIA/pull/3) abierto hacia `main`. El commit de implementación `fe9155f` pasó GitHub Actions con 44 unitarias y TRX publicados. La revisión humana final sigue pendiente. Las secciones originales del 2026-10-26 conservan su contexto histórico; el seguimiento al final registra la evidencia remota.
+
 - Fecha: 2026-10-26.
 - Rama: `feature/PRODE-001-scoring-engine`; HEAD local: `9d6b476`.
 - Alcance: crear una Skill de integración continua para ProdeChamp y aplicarla al workflow existente. Sin despliegue ni publicación.
@@ -88,3 +90,29 @@ Para volver a usarla: «Usa la Skill ci de .agents/skills/ci/SKILL.md para verif
 2. **¿Qué diferencia hay entre verificar localmente el workflow y obtener CI verde?** Localmente se prueban comandos y checks; el resultado remoto debe asociarse al commit y run correctos, incluidos runner y acciones.
 3. **¿Por qué separar CI de CD en este proyecto?** Build y tests tienen alcance y evidencia actuales; desplegar requiere decisiones de entorno y operación que todavía no están aprobadas.
 4. **¿Qué aporta conservar TRX con `always()`?** Facilita diagnosticar fallos después de la ejecución; la evidencia disponible depende de hasta qué paso llegó el job y no debe ocultar un fallo anterior.
+
+## Seguimiento — revisión, publicación y CI remoto, 2026-10-27
+
+La revisión independiente solicitada con la Skill `code-review` comparó `main` (`d4d85f0`) contra la rama y su árbol de trabajo completo: 21 archivos, incluyendo el commit previo de la Skill architect, los cambios sin commit y los archivos sin seguimiento. Consultó la Issue #1, plan, arquitectura, informes y los 14 TRX locales conservados. Dictamen consultivo: **APPROVED**, sin hallazgos P0–P3 accionables. No ejecutó build ni pruebas. Los tres hashes de fuente/pruebas coincidieron con los registrados arriba.
+
+El usuario autorizó expresamente el commit, push y creación del PR, sin fusión. Se creó el commit `fe9155f1f81cbd4654a7c46084cfb45fe1b85ce6` (`feat(PRODE-001): implement prediction scoring and negative-goal validation`), con los 20 archivos locales revisados; la Skill architect ya estaba en el commit anterior de la rama. Se publicó `feature/PRODE-001-scoring-engine` y se creó [PR #3](https://github.com/DiegoDX/ProdeChampIA/pull/3) hacia `main`. La comprobación remota confirmó que `main` seguía en `d4d85f03edf38af3b07848abbef47ac3dc8f44d4`.
+
+### Evidencia remota comprobada
+
+- Run: [40529598727](https://github.com/DiegoDX/ProdeChampIA/actions/runs/40529598727), evento `push`, rama `feature/PRODE-001-scoring-engine`, SHA `fe9155f1f81cbd4654a7c46084cfb45fe1b85ce6`, conclusión `success`.
+- Job: [build-and-test](https://github.com/DiegoDX/ProdeChampIA/actions/runs/40529598727/job/122278457561), completado el 2026-10-27 a las 15:19:11 UTC.
+- Restore y build Release: pasos aprobados; el log registra `Build succeeded`, 0 advertencias y 0 errores.
+- Unitarias: TRX descargado e inspeccionado; 44 resultados individuales, 44 ejecutadas/aprobadas, 0 fallidas y 0 no ejecutadas. Desglose: 34 de puntuación y 10 de validación.
+- Guarda de ejecución: paso aprobado contra el TRX real en GitHub. La comprobación negativa sintética continúa siendo evidencia local histórica, no una ejecución remota adicional.
+- Integración: paso aprobado con 0 pruebas disponibles; el TRX tiene total/ejecutadas/aprobadas = 0. No acredita cobertura de integración.
+- Artefacto [test-results](https://github.com/DiegoDX/ProdeChampIA/actions/runs/40529598727/artifacts/12744819564): subida aprobada, ID `12744819564`, 8958 bytes, ambos TRX descargados en `.local/PRODE-001-github-40529598727/`, fuera del control de versiones.
+
+Consultas realizadas: `gh run list`, `gh run view 40529598727 --json status,conclusion,headSha,url,jobs`, `gh run view 40529598727 --log` y `gh run download 40529598727 --name test-results`. La lectura inicial de GitHub y escritura del índice fallaron por restricciones del sandbox; se completaron con ejecución aprobada. No son fallos de producto ni de pruebas.
+
+### Sincronización documental y límites
+
+Este seguimiento actualiza únicamente el estado y enlaces de README raíz, los README de docs/arquitectura/producto/testing/user-stories, el plan, ambos informes de ingeniería y este informe CI. No cambia calculador, suites, proyectos, solución, workflow ni reglas. Se conserva la evidencia histórica y se distingue la autorización para publicar de la revisión humana final del PR. Los documentos ya están vinculados en la solución.
+
+No se repitieron build ni pruebas localmente durante esta publicación. El run remoto anterior corresponde exactamente a `fe9155f`; el commit posterior de sincronización documental tendrá sus propias comprobaciones de push y PR. Sus resultados se consultarán antes de la entrega y se resumirán en el PR, sin atribuir al run anterior la validación de un SHA distinto. No se midió cobertura, no hay pruebas de integración y no se verificó ejecución manual ni cancelación por concurrencia. No se fusionó el PR ni se modificaron los criterios de la Issue.
+
+Pregunta de entrevista adicional: **¿Por qué registrar el SHA del run y volver a comprobar CI tras un commit documental?** Cada resultado remoto acredita el árbol de su propio commit; un resultado exitoso anterior no sustituye los checks del head final del PR.

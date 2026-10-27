@@ -14,7 +14,7 @@ dotnet test ProdeChamp.slnx
 dotnet run --project src/ProdeChamp.API
 ```
 
-The API starts an empty ASP.NET Core host with no application endpoints. PRODE-001 has a Domain scoring calculator and 44 passing unit tests: 34 for scoring and 10 for rejecting negative goals with `ArgumentOutOfRangeException` identifying the parameter. The integration test project is empty. Implementation is verified locally and awaits independent code review and human approval; see the [implementation report](docs/engineering-reports/PRODE-001-engineering-report.md).
+The API starts an empty ASP.NET Core host with no application endpoints. PRODE-001 has a Domain scoring calculator and 44 passing unit tests: 34 for scoring and 10 for rejecting negative goals with `ArgumentOutOfRangeException` identifying the parameter. The integration test project is empty. Independent code review returned APPROVED, and GitHub CI passed for the published implementation. [PR #3](https://github.com/DiegoDX/ProdeChampIA/pull/3) awaits final human review; see the [implementation report](docs/engineering-reports/PRODE-001-engineering-report.md) and [publication/CI evidence](docs/stories/PRODE-001/ci-report.md).
 
 ## Repository layout
 
