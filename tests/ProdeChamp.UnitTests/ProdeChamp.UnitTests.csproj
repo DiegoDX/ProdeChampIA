@@ -20,6 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Scoring\*.cs" Visible="true" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\ProdeChamp.Domain\ProdeChamp.Domain.csproj" />
     <ProjectReference Include="..\..\src\ProdeChamp.Application\ProdeChamp.Application.csproj" />
   </ItemGroup>

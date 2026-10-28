@@ -55,6 +55,13 @@ Use docs/ as the source of truth for product and architecture decisions.
 
 Keep documentation synchronized with implementation.
 
+## Visual Studio visibility
+
+- Ensure every new project file is visible through its owning project in Visual Studio. Respect SDK default item inclusion; do not add duplicate compile entries.
+- Add new documentation and other relevant non-project deliverables to `ProdeChamp.slnx` as solution items, grouped by their repository folders, so the user can inspect them in Solution Explorer.
+- Exclude generated build artifacts, caches, logs, test results and secrets from solution items.
+- Verify that linked files exist and the solution retains its projects. Apply this preference to future tasks.
+
 ## GitHub Integration
 
 GitHub Issues are the source of truth for approved

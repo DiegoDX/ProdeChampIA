@@ -4,15 +4,26 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [main]
+    branches: ['**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build-and-test:
     runs-on: windows-2025
+    timeout-minutes: 15
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Setup .NET 10
         uses: actions/setup-dotnet@v4
@@ -25,5 +36,25 @@ jobs:
       - name: Build
         run: dotnet build ProdeChamp.slnx --no-restore --configuration Release
 
-      - name: Test
-        run: dotnet test ProdeChamp.slnx --no-build --configuration Release
+      - name: Unit tests
+        run: dotnet test tests/ProdeChamp.UnitTests/ProdeChamp.UnitTests.csproj --no-build --no-restore --configuration Release --logger "trx;LogFileName=unit-tests.trx" --results-directory TestResults/unit
+
+      - name: Verify unit tests executed
+        shell: pwsh
+        run: |
+          [xml]$unitResults = Get-Content -LiteralPath TestResults/unit/unit-tests.trx
+          if ([int]$unitResults.TestRun.ResultSummary.Counters.executed -lt 1) {
+            throw 'No unit tests executed. CI requires at least one executed unit test.'
+          }
+
+      - name: Integration tests
+        run: dotnet test tests/ProdeChamp.IntegrationTests/ProdeChamp.IntegrationTests.csproj --no-build --no-restore --configuration Release --logger "trx;LogFileName=integration-tests.trx" --results-directory TestResults/integration
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: TestResults/**/*.trx
+          if-no-files-found: warn
+          retention-days: 14
