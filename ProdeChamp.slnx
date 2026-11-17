@@ -13,6 +13,7 @@
   </Folder>
   <Folder Name="/docs/" />
   <Folder Name="/docs/engineering-reports/">
+    <File Path="docs/engineering-reports/PRODE-002-correction-engineering-report.md" />
     <File Path="docs/engineering-reports/PRODE-001-engineering-report.md" />
     <File Path="docs/engineering-reports/PRODE-001-validation-engineering-report.md" />
   </Folder>
@@ -26,6 +27,7 @@
     <File Path="docs/stories/PRODE-001/ci-report.md" />
   </Folder>
   <Folder Name="/docs/stories/PRODE-002/">
+    <File Path="docs/stories/PRODE-002/implementation-evidence.md" />
     <File Path="docs/stories/PRODE-002/implementation-plan.md" />
     <File Path="docs/stories/PRODE-002/qa-report.md" />
   </Folder>
