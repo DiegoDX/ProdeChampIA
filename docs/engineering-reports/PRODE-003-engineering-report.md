@@ -2,12 +2,12 @@
 
 - Date: 2026-11-17.
 - Scope/reference: [Issue #5 — Registrar predicciones de partidos](https://github.com/DiegoDX/ProdeChampIA/issues/5), user-authorized implementation and publication.
-- Outcome: **Partial — local implementation and independent reviews complete; publication/remote CI pending**.
-- Evidence boundary: `feature/PRODE-003`, base/HEAD `273690364bd014a13aff8ecfa394b1dcbed76df8`, initially clean; current uncommitted story source/tests/docs/solution. Exact final code/test hashes in implementation evidence.
+- Outcome: **Complete within user-approved Domain scope — published PR awaiting final human review**.
+- Evidence boundary: base `273690364bd014a13aff8ecfa394b1dcbed76df8`; implementation `df2cc58c689e273e64f30e637e2190cb48204c6a`, `feature/PRODE-003` → main, [PR #9](https://github.com/DiegoDX/ProdeChampIA/pull/9). Exact code/test hashes in implementation evidence; final evidence-only head/check identity is recorded in the PR body/Checks.
 
 ## 1. Executive summary
 
-Implemented the user-approved immutable Domain Prediction factory with nonnegative goals, nonnull/nonempty participant GUID, valid Match input, zero-offset UTC timestamp and duplicate rejection against caller-supplied active context. No registry/storage/scoring or new dependency was added. User approved plan/QA; five RED→GREEN increments and remaining boundaries produced 43 passing new cases and 126 passing unit cases total. Release build has 0 warnings/errors; integration executes zero cases. Independent architecture and code reviews both returned APPROVED with no findings; authorized publication/remote CI remains.
+Implemented the user-approved immutable Domain Prediction factory with input validation and duplicate rejection against caller-supplied active context, without registry/storage/scoring or new dependencies. User approved plan/QA; five RED→GREEN increments and boundary checks produced 43 new / 126 total unit passes locally and in GitHub Actions. Release build has 0 warnings/errors; integration executes zero cases. Independent architecture/code reviews both returned APPROVED with no findings. PR #9 is published against main; implementation-head push/PR CI passed, with final evidence-only head outcomes retained in the PR body/Checks. No merge performed.
 
 ## 2. Acceptance criteria traceability
 
@@ -56,13 +56,15 @@ The approved plan requires participant null/empty rejection and a pure factory w
 | Unit regression | dotnet test UnitTests, Release --no-build --no-restore | Passed | 126 executed/passed; 0 failed/skipped; unchanged 83 existing cases included. |
 | Integration project | dotnet test IntegrationTests, Release --no-build --no-restore | Zero tests discovered | Exit 0; 0 executed. No integration coverage. |
 | Independent architecture/code review | Frozen-source reports and coordinator hash/semantic check | Passed | Both APPROVED; independent review-only agents; no findings; R01/R02 satisfied. |
-| Commit / push / PR / CI | Not invoked | Not run | Authorized publication awaits engineering prerequisites. |
+| Commit / push / PR | Authorized git commit/push and gh pr create | Passed | Implementation df2cc58, feature branch published; PR #9 OPEN/non-draft against main. |
+| Remote .NET CI | Push44196947459 / PR44196989346, exact implementation SHA above | Passed | Both SUCCESS; remote raw TRX confirms 126 passed including 43 new, failed/skipped0; integration0. PR tested synthetic merge0917b3f. |
+| Required checks configuration | gh pr checks9 --required; branch/ruleset API reads | Not applicable | No required checks configured (query exit1 reports none); protection off and ruleset disabled. Existing CI nevertheless required to pass for delivery. |
 
 Exact commands, final code/test hashes, raw TRX/log paths and counts are in [implementation evidence](../stories/PRODE-003/implementation-evidence.md). All 83 original cases were freshly rerun in the 126-case suite; Git confirms existing Match/scoring source/tests unchanged.
 
 ## 6. Risks, limitations, and follow-up actions
 
-Complete authorized publication and exact-head CI verification. Both plan/QA approvals and independent reviews are recorded; original Issue criteria remain unchanged and user decisions are separate. Duplicate rejection requires complete/current caller context; Match validity does not prove external catalog membership. Time sourcing and future concurrency/persistence are caller concerns. No integration boundary was added or verified. No unsuccessful correction round consumed (0/3). Repository branch protection/required checks are currently disabled, but the coordinator will require .NET CI to pass before delivery. Existing authorization covers scoped commits, feature-branch pushes and PR creation; never merge.
+Final human review of PR #9 remains. Both plan/QA approvals and independent reviews are recorded; original criteria unchanged. Duplicate rejection needs complete/current caller context; Match validity does not prove external catalog membership. Time sourcing and future concurrency/persistence remain caller concerns. Integration has zero cases. No unsuccessful correction round consumed (0/3). Repository required-check enforcement is disabled; actual .NET CI passed for the recorded implementation head. The documentation-only evidence follow-up preserves code/test blobs and receives a fresh exact-head CI verification before handoff, recorded in the PR body/Checks rather than self-referential source commits. Never merge automatically.
 
 ## 7. References
 

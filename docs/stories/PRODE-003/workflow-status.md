@@ -1,13 +1,13 @@
 # PRODE-003 — Workflow status
 
-- Current stage: **Running — local engineering/reviews passed; authorized publication and CI**.
+- Current stage: **Passed within approved scope — PR #9 published, implementation CI successful; final evidence-only head verification linked from PR body/Checks**.
 - Repository: `DiegoDX/ProdeChampIA`.
 - Issue: [#5 — PRODE-003 — Registrar predicciones de partidos](https://github.com/DiegoDX/ProdeChampIA/issues/5), OPEN.
 - Retrieved: 2026-11-17, between the sandboxed attempt at 22:19:25Z and documentation verification at 22:22:54Z.
 - Issue `updatedAt`: `2026-11-12T21:12:59Z`; comments: none; label: `type:story` (not treated as approval).
 - Approval baseline: user authorized implementation, file changes, local commits, feature-branch pushes and PR creation. User clarified nonnull/nonempty participant ID, a valid Match and duplicate rejection without a registry. User approved concrete plan v1 with **“esta bien”**, including caller-snapshot duplicate checking (original approved SHA256 `3C3F2CB952E87C81B7925D101D52CFB03302C4F70126E34BAC9FC08D6741515C`), then approved QA v1 with **“si esta bien”** (original SHA256 `1219B42D1FF801BD6913AFB5CDCE6CCC636FD7B3991CC4B0E7F81306FD8C6E37`). Later document annotations record approval without changing technical content or expected cases. All required pre-implementation approvals are satisfied.
 - Intended base: `main`, commit `273690364bd014a13aff8ecfa394b1dcbed76df8`. GitHub's current `main` SHA was verified to match via `gh api` in this session.
-- Current branch: `feature/PRODE-003`; HEAD remains the base. Initial tree was clean; no pre-existing changes to preserve.
+- Current branch: `feature/PRODE-003`; implementation commit `df2cc58c689e273e64f30e637e2190cb48204c6a`, published to origin. [PR #9](https://github.com/DiegoDX/ProdeChampIA/pull/9) targets main. Initial tree was clean; no pre-existing changes included. Follow-up publication changes only CI/report/ledger metadata; exact final head/check outcomes are persisted in the PR body to avoid a self-referential commit hash.
 - No merge, auto-merge, deployment or Issue update authorized or performed.
 - Unsuccessful correction rounds: **0/3**; no implementation corrections attempted. Earlier access failures were environmental prerequisites, not behavioral RED.
 
@@ -82,8 +82,8 @@ Dependencies at baseline: PRODE-001 (Prediction Scoring Engine), PRODE-002 (Matc
 | Build / tests | Passed | Release build 0 warnings/errors; 126 unit cases executed/passed, 0 failed/skipped; integration executed zero (no coverage claim). |
 | `architecture-review` | Passed | [Independent APPROVED](architecture-review.md), /root/prode003_arch_review; no findings, final source/test hashes match. |
 | `code-review` | Passed | [Independent APPROVED](code-review.md), /root/prode003_code_review; no findings; all criteria/R01/R02 covered, raw TRX inspected and hashes match. |
-| `engineering-report` | Passed | [Report](../../engineering-reports/PRODE-003-engineering-report.md) consolidates current local results/reviews and pending remote stage. |
-| Publication / `ci` | Running | All engineering gates passed; user authorization retained. Prepublication reads and remote results are recorded in [CI report](ci-report.md). |
+| `engineering-report` | Passed | [Report](../../engineering-reports/PRODE-003-engineering-report.md) consolidates verified local/remote results, independent reviews and explicit limitations. |
+| Publication / `ci` | Passed | PR #9 created. Implementation-head push/PR .NET CI passed; raw remote TRX confirms 126 passes including 43 new / integration0. [CI report](ci-report.md) records exact SHAs/runs and final evidence-only verification boundary. |
 
 ## Current command evidence
 
@@ -166,8 +166,16 @@ git -c safe.directory=C:/ProdeChampIA/ProdeChampIA status --short
 [DateTime]::UtcNow.ToString('o')
 ```
 
-All five criteria have executed case coverage within the approved boundary; BR5 is verified against caller-provided context. Both independent reviewers cleared BR7/R01/R02 and all required review checks. Source SHA256 `B4FF2CCFD92861522DC3190223ACCC3642C22299DAACCC8E5867841BB604A967`; test SHA256 `4F51A12E1FAA24EA0E1E5C5F41C13090CD6B791652197A55F3A71D29CA2A142A`. Raw TRX confirms 43 focused / 126 regression passes; zero integration executions. No new package or original-test change. Remote publication/CI remains the final delivery stage.
+All five criteria have executed coverage within the approved boundary; BR5 is verified against caller context. Both independent reviewers cleared BR7/R01/R02. Source SHA256 `B4FF2CCFD92861522DC3190223ACCC3642C22299DAACCC8E5867841BB604A967`; test SHA256 `4F51A12E1FAA24EA0E1E5C5F41C13090CD6B791652197A55F3A71D29CA2A142A`. Local/remote TRX confirms 43 new / 126 total unit passes; integration zero. No new package or original-test change. PR #9 is published with successful implementation CI; final metadata-only head verification is persisted in the linked PR body/Checks before handoff.
 
 Coordinator semantic review gate: both reports identify distinct review-only agents (neither implemented), approved Issue/plan/QA context, the exact current source/test hashes and genuine raw test evidence. Both verdicts are APPROVED with no findings or missing required coverage. No JSON was requested, so no schema-validation claim. Source hashes were rechecked after review and remain unchanged. Adding review/CI reports and solution links changes no reviewed behavior/dependencies. Reviews grant no merge authority.
 
 Both required plan and QA gates are satisfied: user approved plan with “esta bien” and QA with “si esta bien”. Do not request either approval again for unchanged scope. Progress through TDD/reviews/publication using existing authorization and update current evidence as work completes. Do not merge.
+
+## Publication checkpoint
+
+Only 15 inspected story files were staged; cached diff --check passed. Commit `df2cc58` and feature-branch push succeeded; gh pr create returned [PR #9](https://github.com/DiegoDX/ProdeChampIA/pull/9). No Issue write/closure or merge. Prepublication Issue/base unchanged; no duplicate PR. Final solution validation before commit: six projects / 45 existing links; generated .local evidence and PR body ignored; no credential patterns in story files.
+
+Implementation CI polls 1–2: pending, then SUCCESS for push [44196947459](https://github.com/DiegoDX/ProdeChampIA/actions/runs/44196947459) and PR [44196989346](https://github.com/DiegoDX/ProdeChampIA/actions/runs/44196989346), exact head `df2cc58c689e273e64f30e637e2190cb48204c6a`. PR test merge SHA `0917b3fd2fd39e72ff3a8c8d1c1afd2c2cbc1128`. Raw downloaded TRX: unit126 passed, new43, failed/skipped0; integration0. Branch protection off, sole ruleset disabled, gh pr checks --required reports none (exit1); all actual .NET CI jobs passed. Exact commands/results and source blob identity are in [ci-report.md](ci-report.md).
+
+Final evidence-only head/check details belong to the PR body/Checks, allowing source-bound evidence without an endless chain of metadata commits. Before final response, require exact latest head to match the final published branch and all its CI checks to pass; leave the local tree clean. No unsuccessful correction rounds (0/3).
