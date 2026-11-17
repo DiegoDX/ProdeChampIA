@@ -44,11 +44,21 @@
     <File Path="AGENTS.md" />
   </Folder>
   <Folder Name="/docs/" />
+  <Folder Name="/docs/architecture/">
+    <File Path="docs/architecture/README.md" />
+  </Folder>
+  <Folder Name="/docs/product/">
+    <File Path="docs/product/README.md" />
+  </Folder>
+  <Folder Name="/docs/testing/">
+    <File Path="docs/testing/README.md" />
+  </Folder>
   <Folder Name="/docs/development-factory/">
     <File Path="docs/development-factory/README.md" />
     <File Path="docs/development-factory/review-result.schema.json" />
   </Folder>
   <Folder Name="/docs/engineering-reports/">
+    <File Path="docs/engineering-reports/PRODE-003-engineering-report.md" />
     <File Path="docs/engineering-reports/development-factory-skills-engineering-report.md" />
     <File Path="docs/engineering-reports/PRODE-002-correction-engineering-report.md" />
     <File Path="docs/engineering-reports/PRODE-001-engineering-report.md" />
@@ -58,6 +68,16 @@
     <File Path="docs/retrospectives/sprint-0.md" />
   </Folder>
   <Folder Name="/docs/stories/" />
+  <Folder Name="/docs/stories/PRODE-003/">
+    <File Path="docs/stories/PRODE-003/architecture-review.md" />
+    <File Path="docs/stories/PRODE-003/code-review.md" />
+    <File Path="docs/stories/PRODE-003/ci-report.md" />
+    <File Path="docs/stories/PRODE-003/implementation-plan.md" />
+    <File Path="docs/stories/PRODE-003/implementation-evidence.md" />
+    <File Path="docs/stories/PRODE-003/test-design.md" />
+    <File Path="docs/stories/PRODE-003/refinement.md" />
+    <File Path="docs/stories/PRODE-003/workflow-status.md" />
+  </Folder>
   <Folder Name="/docs/stories/PRODE-001/">
     <File Path="docs/stories/PRODE-001/implementation-plan.md" />
     <File Path="docs/stories/PRODE-001/qa-report.md" />
