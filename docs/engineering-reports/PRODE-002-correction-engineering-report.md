@@ -2,7 +2,7 @@
 
 - Date: 2026-11-17.
 - Reference: [Issue #4](https://github.com/DiegoDX/ProdeChampIA/issues/4), existing plan and QA scope; user-selected local correction.
-- Outcome: local correction complete and tests green; full Issue completion remains partial because AC3 is deferred.
+- Outcome: correction published in PR #8; local and initial remote checks passed. Full Issue completion remains partial because AC3 is deferred.
 - Evidence boundary: branch `fix/PRODE-002-match-construction`, base `e39f37450c21e2cf7c02f0dbd11f524a0fd95272`, working-tree `Match.cs` blob `d3288bba5a598e2c355d4e38e1755c016838cc28`.
 
 ## 1. Executive summary
@@ -50,11 +50,24 @@ See [implementation evidence](../stories/PRODE-002/implementation-evidence.md) f
 | Release regression | 83 unit tests passed, 0 failures/skips; exit 0. Integration executed 0 cases and supplies no integration coverage. |
 | Structure / visibility | 6 projects and 13 unique existing solution items; 21 local documentation links resolve. MSBuild default compile items include Match/MatchStatus/MatchTests once each. Diff hygiene and scope checks passed; exit 0. |
 | Review | Implementer self-review only; independent human review remains pending. |
-| Remote publication / CI | Not run for this correction. Previous failed PR #7 checks do not validate or invalidate this separate local working tree. |
+| Remote publication / CI | [PR #8](https://github.com/DiegoDX/ProdeChampIA/pull/8) published; both initial runs passed for `fc38be45e8a00eb01bebfc41af6d62c5a9949203`. See source-bound evidence below; previous PR #7 failures concern a different branch. |
 
 ## 6. Risks, limitations and next action
 
-AC3 and team validity remain deliberately unenforced; this increment cannot establish full Issue acceptance. Integration and Visual Studio UI were not verified. Local passing tests do not change the checks on the already published Skills PR. The user subsequently authorized commit, push and PR creation with **“si autorizo”**; remote verification follows publication. Independent human review remains pending. Never merge automatically. No Issue update or reopening was performed.
+AC3 and team validity remain deliberately unenforced; this increment cannot establish full Issue acceptance. Integration has zero test coverage and Visual Studio UI was not inspected. Correction checks do not change the checks on the already published Skills PR. The user authorized commit, push and PR creation with **“si autorizo”**. Independent human review remains pending. Never merge automatically. No Issue update or reopening was performed.
+
+## Publication and remote CI evidence
+
+Committed the seven correction files as `fc38be45e8a00eb01bebfc41af6d62c5a9949203`, pushed only `fix/PRODE-002-match-construction` and created [PR #8](https://github.com/DiegoDX/ProdeChampIA/pull/8) against `main`. The `.codex/config.toml` modification remains local. No merge was performed.
+
+| Run | Event / source | Actual result |
+| --- | --- | --- |
+| [44173463621](https://github.com/DiegoDX/ProdeChampIA/actions/runs/44173463621) | Push; head `fc38be45e8a00eb01bebfc41af6d62c5a9949203` | SUCCESS: restore/build passed (0 warnings/errors), 83 unit tests passed, 0 failed/skipped; integration 0 cases. |
+| [44173482792](https://github.com/DiegoDX/ProdeChampIA/actions/runs/44173482792) | PR; same head; checkout logged merge `3a3eaa6` into base `e39f37450c21e2cf7c02f0dbd11f524a0fd95272` | SUCCESS: restore/build passed (0 warnings/errors), 83 unit tests passed, 0 failed/skipped; unit-execution guard and TRX upload passed; integration 0 cases. |
+
+Verified using `gh run watch 44173482792 --repo DiegoDX/ProdeChampIA --exit-status --interval 10` (exit 0), plus `gh run view <run-id> --repo DiegoDX/ProdeChampIA --json databaseId,event,headSha,status,conclusion,url` and `gh run view <run-id> --repo DiegoDX/ProdeChampIA --log` for both IDs above (retrieval exit 0). GitHub runner directory: `D:\a\ProdeChampIA\ProdeChampIA`; configuration: Release. Remote commands were `dotnet restore ProdeChamp.slnx`, `dotnet build ProdeChamp.slnx --no-restore --configuration Release`, and separate `dotnet test` invocations for each test project with `--no-build --no-restore --configuration Release`, TRX logging and distinct result directories. The integration runner's success establishes no integration coverage.
+
+This report update is documentation-only and follows the tested implementation commit. Its final-head Actions are verified separately and recorded on the PR and final handoff, without treating initial-run results as proof of a later revision. No product code or tests changed after the successful local and initial remote verification. The hosting service's Node runtime deprecation annotation did not fail the workflow; workflow upgrades are outside this correction.
 
 ## 7. References
 
