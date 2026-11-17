@@ -5,13 +5,15 @@ description: Implement approved ProdeChamp Angular frontend behavior with test-f
 
 # Frontend Implementation — ProdeChamp
 
+Read [AGENTS.md](../../../AGENTS.md) and the [shared factory contract](../../../docs/development-factory/README.md) for authoritative story lookup, stage prerequisites, artifact paths, verification evidence and the common handoff. Reuse approvals already granted for the same scope.
+
 ## Purpose and authority
 
 Implement only frontend behavior authorized by an approved user story. This skill specializes the shared `tdd-implementation` workflow for Angular and TypeScript; it does not replace `AGENTS.md`, approved acceptance criteria, architectural decisions, or the API contract. When instructions conflict, follow the repository's governing documents and stop on unresolved business rules.
 
 ## Read before editing
 
-1. Read repository `AGENTS.md`, the approved story and acceptance criteria under `docs/user-stories/`, relevant `docs/product/` and `docs/architecture/` records, and any available `docs/test-design/` plan.
+1. Retrieve the approved GitHub Issue and separately approved decisions; read relevant product/architecture records. Verify the human-approved implementation plan and QA design for story work. Explicitly scoped maintenance follows the shared contract's task exception.
 2. Inspect the actual Angular version, workspace configuration, existing feature structure, coding conventions, test runner, formatting/lint commands, and related frontend code. Do not assume dependencies or scripts exist.
 3. Inspect the actual backend endpoints, DTOs, authentication conventions, validation errors and API documentation relevant to the story. Do not invent endpoints or response fields.
 4. Check whether the story is ready. Identify missing product decisions, API contract gaps and external blockers before implementing affected behavior.
@@ -35,16 +37,14 @@ Implement only frontend behavior authorized by an approved user story. This skil
 - Avoid unsafe HTML injection, logging secrets, embedding credentials, exposing sensitive data, or storing tokens in a new location without an approved security design.
 - Do not optimize speculatively; identify measured performance problems separately.
 
-## TDD: Red → Green → Refactor
+## Frontend specialization of TDD
 
-1. Map each relevant acceptance criterion to observable UI behavior and a test level, using the approved QA design when present.
-2. **RED:** write a focused automated test first, run it, and confirm it fails because the approved behavior is missing—not because of a broken setup, compilation error or wrong expectation. Record the actual command and failure.
-3. **GREEN:** implement the smallest maintainable Angular change that satisfies the test and criterion. Rerun the focused test and record the result.
-4. **REFACTOR:** simplify structure and naming without changing behavior; rerun the focused tests.
-5. Repeat per behavior; then run relevant broader checks supported by the repository (unit/component tests, lint, type-check/build, and applicable E2E tests). Report each command and actual outcome.
-6. Use HTTP mocking for isolated frontend tests, asserting request method, URL, payload and handling; use real integration/E2E checks only when environments and contracts are available. Do not claim mocked tests verify a live backend.
-7. Cover meaningful positive, negative and boundary scenarios, including validation and async error handling when required; avoid tests that only assert components instantiate or duplicate framework behavior.
-8. Never weaken tests, alter approved acceptance criteria, or update snapshots blindly just to obtain a green result. If behavioral TDD is inapplicable to a structure-only change, explain why and use suitable static/build verification instead.
+Read and follow [tdd-implementation](../tdd-implementation/SKILL.md); it owns the RED/GREEN/refactor cycle, evidence and structural-change exceptions. Apply the approved QA cases to UI behavior without repeating the implementation workflow.
+
+- Use the Angular version and runner actually configured. Do not introduce newer forms, signal APIs, a different test runner or E2E packages implicitly.
+- Use HTTP mocking for isolated tests of request method, URL, payload and error handling; it does not verify a live backend.
+- Test meaningful interactions, validation and async states, accessibility and authorization feedback where relevant; avoid component-instantiation-only assertions and blind snapshot updates.
+- Run the relevant configured component/service tests, lint, build and justified integration/E2E checks. Link the single implementation evidence artifact and reconcile saved source with those results.
 
 ## Boundaries and stop conditions
 
@@ -63,6 +63,5 @@ Return a concise engineering handoff suitable for `engineering-report` and `code
 4. **TDD evidence:** RED/GREEN/REFACTOR observations, exact commands, actual outcomes, and whether any test discovered zero tests.
 5. **Other verification:** lint, build, integration/E2E results, distinguishing Passed / Failed / Not run / Blocked.
 6. **Limitations and risks:** outstanding API, UX, accessibility, security or environment issues.
-7. **Interview questions:** 2–5 grounded questions related to the actual decisions made, as required by `AGENTS.md`.
 
 Keep relevant documentation in sync with authorized changes. Never present unverified behavior as completed.

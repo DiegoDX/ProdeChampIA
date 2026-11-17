@@ -1,10 +1,42 @@
 <Solution>
   <Folder Name="/.agents/" />
   <Folder Name="/.agents/skills/" />
+  <Folder Name="/.agents/skills/architect/">
+    <File Path=".agents/skills/architect/SKILL.md" />
+  </Folder>
+  <Folder Name="/.agents/skills/architecture-review/">
+    <File Path=".agents/skills/architecture-review/SKILL.md" />
+  </Folder>
+  <Folder Name="/.agents/skills/backend-implementation/">
+    <File Path=".agents/skills/backend-implementation/SKILL.md" />
+  </Folder>
+  <Folder Name="/.agents/skills/code-review/">
+    <File Path=".agents/skills/code-review/SKILL.md" />
+  </Folder>
+  <Folder Name="/.agents/skills/engineering-report/">
+    <File Path=".agents/skills/engineering-report/SKILL.md" />
+  </Folder>
+  <Folder Name="/.agents/skills/frontend-implementation/">
+    <File Path=".agents/skills/frontend-implementation/SKILL.md" />
+  </Folder>
+  <Folder Name="/.agents/skills/story-refinement/">
+    <File Path=".agents/skills/story-refinement/SKILL.md" />
+  </Folder>
+  <Folder Name="/.agents/skills/story-workflow/">
+    <File Path=".agents/skills/story-workflow/SKILL.md" />
+  </Folder>
+  <Folder Name="/.agents/skills/tdd-implementation/">
+    <File Path=".agents/skills/tdd-implementation/SKILL.md" />
+  </Folder>
+  <Folder Name="/.agents/skills/test-design/">
+    <File Path=".agents/skills/test-design/SKILL.md" />
+  </Folder>
   <Folder Name="/.agents/skills/ci/">
     <File Path=".agents/skills/ci/SKILL.md" />
   </Folder>
-  <Folder Name="/.github/" />
+  <Folder Name="/.github/">
+    <File Path=".github/pull_request_template.md" />
+  </Folder>
   <Folder Name="/.github/workflows/">
     <File Path=".github/workflows/ci.yml" />
   </Folder>
@@ -12,7 +44,12 @@
     <File Path="AGENTS.md" />
   </Folder>
   <Folder Name="/docs/" />
+  <Folder Name="/docs/development-factory/">
+    <File Path="docs/development-factory/README.md" />
+    <File Path="docs/development-factory/review-result.schema.json" />
+  </Folder>
   <Folder Name="/docs/engineering-reports/">
+    <File Path="docs/engineering-reports/development-factory-skills-engineering-report.md" />
     <File Path="docs/engineering-reports/PRODE-001-engineering-report.md" />
     <File Path="docs/engineering-reports/PRODE-001-validation-engineering-report.md" />
   </Folder>

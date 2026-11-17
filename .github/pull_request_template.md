@@ -20,6 +20,3 @@ Explain the important engineering decisions.
 
 ## Evidence
 Include test results and relevant references.
-
-## Interview Questions
-List technical questions derived from this change.

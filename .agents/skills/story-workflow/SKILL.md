@@ -1,9 +1,11 @@
 ---
 name: story-workflow
-description: Coordinate the ProdeChamp GitHub user-story lifecycle using existing specialized skills for requirements, architecture, test-first development, independent reviews, reporting and interview preparation; publish a PR and verify Actions only when explicitly authorized.
+description: Coordinate the ProdeChamp GitHub user-story lifecycle using existing specialized skills for requirements, architecture, test-first development, independent reviews and reporting; publish a PR and verify Actions only when explicitly authorized.
 ---
 
 # ProdeChamp story workflow
+
+Read [AGENTS.md](../../../AGENTS.md) and the [shared factory contract](../../../docs/development-factory/README.md) for authoritative story lookup, stage prerequisites, artifact paths, verification evidence and the common handoff. Reuse approvals already granted for the same scope.
 
 Coordinate stage selection, handoffs, authorization and evidence. Specialized skills own their analysis, design, tests, implementation, reviews and reports. Read their actual instructions instead of reproducing their checklists. This is a session workflow, not an unattended background service.
 
@@ -18,7 +20,7 @@ Coordinate stage selection, handoffs, authorization and evidence. Specialized sk
 
 ## Routing to existing skills
 
-Read selected `SKILL.md` files under `.agents/skills/` before use; re-check actual names if the catalog changes. Record why inapplicable stages or specializations are skipped. Do not invent a review-result schema.
+Read selected `SKILL.md` files under `.agents/skills/` before use; re-check actual names if the catalog changes. Record why inapplicable stages or specializations are skipped. Use the shared factory contract and its review-result schema when structured review output is requested.
 
 | Skill | Responsibility and selection |
 | --- | --- |
@@ -31,7 +33,6 @@ Read selected `SKILL.md` files under `.agents/skills/` before use; re-check actu
 | `architecture-review` | Review relevant architectural boundaries, references, dependencies, integrations or ADR proposals. |
 | `code-review` | Review implemented story changes for criteria, correctness, regressions, security and test evidence. |
 | `engineering-report` | Consolidate actual changes, decisions, verification and limitations. |
-| `interview-preparation` | Generate grounded Senior .NET questions, answer outlines and follow-up probes. |
 | `ci` | Verify Actions and diagnose failures; change pipelines only within approved scope. |
 
 Use `tdd-implementation` as the shared method with applicable backend/frontend specialization, not competing implementations. Sequence full-stack slices by real dependencies and approved contracts. For structure-only or CI-only work, explain why behavioral TDD is inapplicable; use appropriate structural/build/CI checks without manufactured RED evidence.
@@ -90,21 +91,19 @@ Review a stable diff against the verified base, including relevant untracked del
 
 When subagents are supported, this skill authorizes separate review-only agents: an architecture reviewer when relevant and a code reviewer, neither having implemented the change. Supply the Issue, approved plan, baseline/current scope, raw test evidence and repository rules; let them form their own findings. These independent passes may run concurrently on the same frozen scope. Do not mutate reviewed code while they run. Delegation does not authorize GitHub writes or external messages.
 
-Persist `architecture-review.md` when selected and `code-review.md` under `docs/stories/{STORY_ID}/`, retaining each skill's verdict/severity vocabulary. Route corrections to implementation, never reviewers. After fixes, rerun affected tests and review passes. Earlier approval does not cover changed code.
+Persist `architecture-review.md` when selected and `code-review.md` under `docs/stories/{STORY_ID}/`, using the shared verdict/severity contract. Include reviewer identity, independence and reviewed source; validate requested JSON against the shared schema and evaluate its semantic gates. Route corrections to implementation, never reviewers. After fixes, rerun affected tests and review passes. Earlier approval does not cover changed code.
 
-Without independent reviewers, perform available separate passes labeled `Self-review; independent review not performed`. Do not self-approve through `code-review` or claim independent clearance. Mark independence unverified and require external human review before that gate passes. Honor blocking findings and `Blocked`/`Insufficient evidence` verdicts. Technical verdicts never authorize merging.
+Without independent reviewers, perform available separate passes labeled `Self-review; independent review not performed`. Do not self-approve through `code-review` or claim independent clearance. Mark independence unverified and require external human review before that gate passes. Honor blocking findings and `BLOCKED` verdicts. Technical verdicts never authorize merging.
 
 ### 8. Generate the engineering report
 
 Invoke `engineering-report` with baseline, actual diff, traceability, commands/results, correction history and reviews. Persist under `docs/engineering-reports/` using story ID and existing convention. Verify claims against evidence. If delivery is blocked, produce a partial/blocked report; reporting may run even when earlier stages could not finish.
 
-### 9. Generate Senior .NET interview preparation
-
-Invoke `interview-preparation` after the report exists. Persist a story-specific artifact under `docs/interview-questions/`; request Senior .NET questions, answer outlines, probes and concrete references. Ground them in actual decisions, TDD and reviews. Label planned/unverified behavior. Link from the engineering report and reuse its concise questions instead of producing contradictory accounts.
-
-### 10. Publish a PR and verify Actions only when authorized
+### 9. Publish a PR and verify Actions only when authorized
 
 Prepare a reviewable local PR title/body from the final diff, criteria coverage, tests, reviews and limitations. If commit/push/PR authorization is missing, record `Not run - awaiting publication authorization`, present prepared scope and stop before that action. Reuse existing explicit authorization within its scope. Complete reviewable work before asking for missing final authorization; cite the applicable `AGENTS.md` permission rule.
+
+Before publication, re-fetch the Issue, verify the intended base and current diff, and ensure approvals, checks and reviews still cover that exact source. Prepare the complete title/body before requesting any missing final authorization.
 
 With authorization and prior verification/review gates satisfied, stage only inspected story files, commit only if authorized, push only the feature branch, then use `gh pr create` or an explicitly authorized update to a matching existing PR. Check for matching PRs first to avoid duplicates. Use a body file for multiline text. Record actual SHA, branch, PR URL and base/head. Never close the Issue as complete with unverified/deferred criteria.
 
@@ -121,7 +120,7 @@ For failures, retrieve logs and route defects to implementation or `ci`. Apply t
 
 ## Final handoff and invocation
 
-Report Issue, branch, stage outcomes, files changed, technical decisions, actual checks/results, review verdicts/independence, limitations, generated interview artifact, and PR/CI URLs or why publication did not run. Distinguish local engineering completion, publication readiness and full story completion. No stage passes without required evidence/authorization; a passing subset cannot hide unresolved criteria.
+Report Issue, branch, stage outcomes, files changed, technical decisions, actual checks/results, review verdicts/independence, limitations and PR/CI URLs or why publication did not run. Distinguish local engineering completion, publication readiness and full story completion. No stage passes without required evidence/authorization; a passing subset cannot hide unresolved criteria.
 
 Local invocation:
 

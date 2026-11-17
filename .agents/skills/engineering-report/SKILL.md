@@ -5,15 +5,18 @@ description: Produce an evidence-based ProdeChamp engineering report for an appr
 
 # Engineering Report — ProdeChamp
 
+Read [AGENTS.md](../../../AGENTS.md) and the [shared factory contract](../../../docs/development-factory/README.md) for authoritative story lookup, stage prerequisites, artifact paths, verification evidence and the common handoff. Reuse approvals already granted for the same scope.
+
 ## Purpose
 Create an auditable, concise handoff of **what actually changed**, **why**, **how it was verified**, and **what remains unresolved**. This is a reporting skill, not authorization to implement, approve, merge, push, deploy, or change requirements.
 
 ## Sources of truth (read before writing)
-1. `AGENTS.md` and the approved story/acceptance criteria in `docs/user-stories/`.
+1. `AGENTS.md`, the retrieved approved GitHub Issue and separately approved decisions, or the explicitly authorized maintenance task.
 2. Applicable product and architecture decisions in `docs/`, including ADRs.
 3. Actual working-tree diff, changed files, and their relevant surrounding code; inspect uncommitted changes where available.
 4. Real test/build/lint output, CI results, and existing implementation or QA review notes if accessible.
-5. Related questions under `docs/interview-questions/` when they exist.
+
+Read the linked lifecycle and stage evidence once; keep current status in `workflow-status.md` and link dated reports rather than repeating current status across unrelated documents. Include the four common handoff fields without generating a second implementation log.
 
 Never substitute the plan or an agent's claim for repository or command evidence. If a source is unavailable, state the gap. Respect `docs/` as the project's decision source of truth and keep reports aligned with the approved scope.
 
@@ -24,8 +27,7 @@ Never substitute the plan or an agent's claim for repository or command evidence
 4. **Record decisions and trade-offs:** explain rationale and consequences, especially Clean Architecture boundaries, testability, security, SQL Server typed parameters (never `AddWithValue`), dependency approval, and out-of-scope exclusions when relevant. Do not imply a proposed ADR is approved.
 5. **Collect verification evidence:** quote exact commands and relevant outcomes from recorded runs. Use `Passed`, `Failed`, `Not run`, `Blocked`, or `Zero tests discovered`. State totals and environment limitations when known. A command invocation without a completed result is not a pass. Distinguish local verification from CI.
 6. **Document risk and follow-ups:** concrete limitations, failures, remaining tasks, and suggested owners/actions when supported. Flag unauthorized dependency additions, scope changes, missing approval, and security concerns; do not silently normalize them.
-7. **Generate interview preparation:** include 3–5 technically probing questions tied to real decisions, tests or trade-offs. Add brief answer pointers and file references. Never claim planned technologies have been implemented. Link separate artifacts under `docs/interview-questions/` if present; create them only if explicitly requested.
-8. **Reconcile the report:** compare claims with the final visible repository state and available results. Avoid claims of commit, PR, merge, deployment, release, or production verification without explicit evidence.
+7. **Reconcile the report:** compare claims with the final visible repository state and available results. Avoid claims of commit, PR, merge, deployment, release, or production verification without explicit evidence.
 
 ## Output format
 Use this structure in the response and, when a report artifact is requested or appropriate, in `docs/engineering-reports/<story-or-task-id>-engineering-report.md` (follow existing repository naming conventions when present):
@@ -60,11 +62,8 @@ Use this structure in the response and, when a report artifact is requested or a
 ## 6. Risks, limitations, and follow-up actions
 <Impact, unresolved items, blockers, and next step>
 
-## 7. Interview questions
-<3–5 questions, brief answer pointers, and concrete code/test references>
-
-## 8. References
-<Story, ADRs, relevant tests/reviews and linked interview artifact, if available>
+## 7. References
+<Story/task, ADRs, lifecycle status and relevant test/review evidence>
 ```
 
 ## Non-negotiable rules
