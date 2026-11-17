@@ -17,4 +17,8 @@ The API currently contains only host creation and startup. Domain contains the s
 
 The user approved rejecting negative goals with `ArgumentOutOfRangeException` identifying the offending parameter. `Calculate` applies `ArgumentOutOfRangeException.ThrowIfNegative` to each of its four arguments before evaluating any scoring category. Zero and all nonnegative `int` values remain valid; no maximum below `int.MaxValue` is imposed. See the [implementation report](../engineering-reports/PRODE-001-engineering-report.md) for local evidence and the [CI report](../stories/PRODE-001/ci-report.md) for 44 passing remote unit tests. Independent review returned APPROVED; final human review of PR #3 remains pending.
 
+## PRODE-002 — Match construction
+
+Domain also contains `Matches/Match` and the four-value `MatchStatus` enum. `Match` accepts a caller-supplied nonempty GUID, provisional team strings, a zero-offset `DateTimeOffset` and any defined status. Its constructor rejects empty IDs and nonzero offsets with parameter-specific `ArgumentException`, and undefined statuses with `ArgumentOutOfRangeException`. It preserves supplied values in public get-only properties. Team validation and self-play rejection remain deferred by user direction; no team-validity guarantee is made. No project references, dependencies, I/O, lifecycle methods or scoring integration are added. See the [correction report](../engineering-reports/PRODE-002-correction-engineering-report.md) for local verification and limitations.
+
 Document significant future decisions under [decisions/](decisions/README.md). SQL Server and Angular are planned; this scaffold does not configure them.
