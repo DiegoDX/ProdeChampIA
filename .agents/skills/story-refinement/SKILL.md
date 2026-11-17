@@ -5,12 +5,14 @@ description: Refine and validate ProdeChamp user stories before implementation; 
 
 # Story Refinement — ProdeChamp
 
+Read [AGENTS.md](../../../AGENTS.md) and the [shared factory contract](../../../docs/development-factory/README.md) for authoritative story lookup, stage prerequisites, artifact paths, verification evidence and the common handoff. Reuse approvals already granted for the same scope.
+
 ## Purpose and authority
 
 Refine a user story into a clear, testable proposal that an architect, QA agent, and developer can use. This skill is **analysis and planning only**, not implementation or approval.
 
 1. Read repository `AGENTS.md` first and follow its instructions. If instructions conflict, `AGENTS.md` takes precedence.
-2. Read the target story and its current acceptance criteria in `docs/user-stories/`.
+2. Retrieve the target GitHub Issue using `gh`; record its current criteria, update timestamp and approval evidence. Treat `docs/user-stories/` as a supporting index and keep separately approved decisions distinct from the Issue baseline.
 3. Read relevant product rules in `docs/product/`, architecture in `docs/architecture/README.md`, and any applicable decisions in `docs/architecture/decisions/`. Read only what is relevant; `docs/` is the source of truth for documented product and architecture decisions.
 4. Inspect directly related stories or contracts only where needed to identify prerequisites, conflicts, or overlap.
 5. If required source material is missing or inaccessible, say what is missing and mark conclusions as provisional. Do not invent its contents.
@@ -37,7 +39,7 @@ Refine a user story into a clear, testable proposal that an architect, QA agent,
 - Evaluate each existing criterion for clarity, observability, unambiguous pass/fail behavior, atomicity where practical, and consistency with scope.
 - Suggest missing or clearer criteria as **PROPOSED — NOT APPROVED**. Use Given/When/Then only when it improves clarity; avoid reformatting approved criteria as though they changed.
 - Include positive, negative, authorization, and boundary scenarios where relevant, without multiplying scenarios that add no coverage.
-- Map proposed test scenarios to existing acceptance-criterion IDs or to explicitly labeled proposed criteria. Never imply tests were executed.
+- Map illustrative business scenarios to existing acceptance-criterion IDs or explicitly proposed criteria. Leave the detailed test matrix, priorities and fixtures to `test-design`; never imply tests were executed.
 
 ### 4. Identify dependencies and delivery risks
 
@@ -66,6 +68,6 @@ Return a concise, actionable refinement report with these sections:
 5. **Verification outline:** test scenarios mapped to approved or proposed criteria; expected outcomes only when documented or explicitly hypothetical.
 6. **Dependencies and scope:** prerequisites, risks, assumptions, and explicit out-of-scope items.
 7. **Readiness:** **Ready for approval**, **Blocked pending decisions**, or **Needs further refinement**, with specific reasons. "Ready for approval" does not mean approved for implementation.
-8. **Engineering handoff:** files changed (**None** unless explicitly changed), technical decisions (**None approved** unless evidenced), tests executed (**Not run — refinement only**), known limitations, and 1–3 relevant interview questions, as required by `AGENTS.md`.
+8. **Engineering handoff:** files changed (**None** unless explicitly changed), technical decisions (**None approved** unless evidenced), tests executed (**Not run — refinement only**), known limitations.
 
 Keep findings tied to concrete story criteria or repository evidence. Prefer the smallest refinement that makes the work testable and prevents rework. Do not claim to have inspected files, run tests, or received approvals that you have not actually verified.

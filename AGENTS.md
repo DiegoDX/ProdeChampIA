@@ -47,7 +47,8 @@ Every completed task must report:
 - Technical decisions.
 - Tests executed and their actual results.
 - Known limitations.
-- Interview questions generated.
+
+Do not generate interview questions or interview-preparation artifacts as part of Development Factory tasks. Existing interview documents are historical and must be preserved.
 
 ## Documentation
 

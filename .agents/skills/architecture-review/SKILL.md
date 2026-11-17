@@ -5,6 +5,8 @@ description: Review ProdeChamp architectural changes, Clean Architecture boundar
 
 # ProdeChamp Architecture Review
 
+Read [AGENTS.md](../../../AGENTS.md) and the [shared factory contract](../../../docs/development-factory/README.md) for authoritative story lookup, stage prerequisites, artifact paths, verification evidence and the common handoff. Reuse approvals already granted for the same scope.
+
 ## Purpose and authority
 
 Act as an architecture reviewer, not as an implementation agent or decision approver. Evaluate a proposed or implemented change against the approved story, repository rules, and existing architecture. Prefer the smallest coherent design that meets the requirements. Do not introduce patterns, abstractions, services, packages, or infrastructure speculatively.
@@ -14,7 +16,7 @@ Repository `AGENTS.md` and approved architectural decisions take precedence over
 ## Required context
 
 1. Read `AGENTS.md`, `docs/architecture/README.md`, and relevant ADRs in `docs/architecture/decisions/` if present.
-2. Locate the approved issue/story and its acceptance criteria. If unavailable, explicitly limit the review to what can be verified; do not invent requirements.
+2. Retrieve the approved GitHub Issue and separately approved decisions, or identify the explicitly authorized architecture/maintenance task. If unavailable, explicitly limit the review to what can be verified; do not invent requirements.
 3. Inspect the affected solution/projects, project-reference graph, `.csproj` package declarations, dependency injection registration, and relevant code or diff. Check central package management files if present.
 4. Review related tests when they exist. Distinguish tests actually executed from tests merely inspected.
 5. Cite file paths and line numbers when available. Do not claim evidence for files not inspected.
@@ -72,16 +74,18 @@ An ADR proposal should include: title, status (`Proposed`), context, options con
 Respond in this order:
 
 1. **Scope and evidence:** approved story/commit/diff examined, relevant rules, and files inspected; state missing context.
-2. **Verdict:** `Compliant`, `Changes required`, or `Insufficient evidence` with a one-sentence justification. This is a review assessment, not an approval to merge.
-3. **Findings:** sorted by severity (`Critical`, `High`, `Medium`, `Low`). For each, include: location (`path:line` if available), observed evidence, violated rule or concrete risk, impact, and minimal suggested correction. Distinguish verified violations from potential risks.
+2. **Verdict:** `APPROVED`, `CHANGES_REQUESTED`, or `BLOCKED` with a one-sentence justification. These replace the former Compliant / Changes required / Insufficient evidence labels for new reports. This is a review assessment, not an approval to merge.
+3. **Findings:** sorted by severity (`P0` critical, `P1` high, `P2` medium, `P3` low). For each, include: location (`path:line` if available), observed evidence, violated rule or concrete risk, impact, and minimal suggested correction. Distinguish verified violations from potential risks.
 4. **Tradeoffs / ADR needs:** only when relevant; present viable alternatives and their consequences.
 5. **Verification and gaps:** checks executed, results, tests missing, and remaining unknowns.
 
 If no findings are identified, state `No architectural findings in the inspected scope` and describe any residual limitations. Do not manufacture findings to fill sections.
 
+Persist `docs/stories/{STORY_ID}/architecture-review.md`; for maintenance use `docs/engineering-reports/<task-id>-architecture-review.md`. Include reviewer identity, independence, exact source, decision rationale and the common handoff. When requested, emit sibling JSON using [review-result.schema.json](../../../docs/development-factory/review-result.schema.json) with `reviewType: architecture`. Apply the shared semantic gate checks; P0/P1 always block, P2 blocks when demonstrated impact warrants it, and P3 does not block. Missing essential evidence or required independence yields BLOCKED. Historical reports keep their original vocabulary.
+
 ## Boundaries
 
 - Review only within the requested scope and relevant dependencies.
-- Do not edit application code, change project/package references, install dependencies, commit, push, open or merge a PR, or change an ADR's acceptance status unless separately and explicitly authorized.
+- Do not edit application code, change project/package references, install dependencies, commit, push, open a PR, or change an ADR's acceptance status unless separately and explicitly authorized. Never merge or approve your own implementation.
 - A review request does not grant permission to expand the story, introduce new requirements, or approve your own recommendations.
 - Do not claim that a command, build, test, or tool was run unless it was actually executed.

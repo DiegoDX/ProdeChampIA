@@ -1,0 +1,324 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ProdeChamp advisory review result",
+  "description": "Structural contract only. The coordinator must also verify source, evidence, independence, acceptance coverage and required checks.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "reviewType",
+    "taskId",
+    "source",
+    "reviewer",
+    "verdict",
+    "summary",
+    "findings",
+    "acceptanceCriteria",
+    "checks",
+    "limitations"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0"
+    },
+    "reviewType": {
+      "enum": [
+        "code",
+        "architecture"
+      ]
+    },
+    "taskId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baseRevision",
+        "reviewedRevision",
+        "workingTreeScope"
+      ],
+      "properties": {
+        "baseRevision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reviewedRevision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workingTreeScope": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "reviewer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identity",
+        "independence"
+      ],
+      "properties": {
+        "identity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "independence": {
+          "enum": [
+            "Independent",
+            "Self-review",
+            "Unknown"
+          ]
+        }
+      }
+    },
+    "verdict": {
+      "enum": [
+        "APPROVED",
+        "CHANGES_REQUESTED",
+        "BLOCKED"
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "severity",
+          "blocking",
+          "location",
+          "evidence",
+          "impact",
+          "correction"
+        ],
+        "properties": {
+          "severity": {
+            "enum": [
+              "P0",
+              "P1",
+              "P2",
+              "P3"
+            ]
+          },
+          "blocking": {
+            "type": "boolean"
+          },
+          "location": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "impact": {
+            "type": "string",
+            "minLength": 1
+          },
+          "correction": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "severity": {
+                  "enum": [
+                    "P0",
+                    "P1"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "blocking": {
+                  "const": true
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "severity": {
+                  "const": "P3"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "blocking": {
+                  "const": false
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "acceptanceCriteria": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "status",
+          "evidence"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "Covered",
+              "Not covered",
+              "Unable to verify",
+              "Not applicable"
+            ]
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "commandOrSource",
+          "status",
+          "result"
+        ],
+        "properties": {
+          "commandOrSource": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "Passed",
+              "Failed",
+              "Blocked",
+              "Not run",
+              "Zero tests discovered",
+              "Not applicable"
+            ]
+          },
+          "result": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "verdict": {
+            "const": "APPROVED"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "reviewer": {
+            "properties": {
+              "independence": {
+                "const": "Independent"
+              }
+            }
+          },
+          "findings": {
+            "not": {
+              "contains": {
+                "properties": {
+                  "blocking": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "blocking"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "verdict": {
+            "const": "CHANGES_REQUESTED"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "findings": {
+            "contains": {
+              "properties": {
+                "blocking": {
+                  "const": true
+                }
+              },
+              "required": [
+                "blocking"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "reviewer": {
+            "properties": {
+              "independence": {
+                "enum": [
+                  "Self-review",
+                  "Unknown"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "verdict": {
+            "const": "BLOCKED"
+          }
+        }
+      }
+    }
+  ]
+}

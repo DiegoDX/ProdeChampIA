@@ -5,10 +5,12 @@ description: Implement approved ProdeChamp backend user stories in C#/.NET 10 an
 
 # Backend Implementation — ProdeChamp
 
+Read [AGENTS.md](../../../AGENTS.md) and the [shared factory contract](../../../docs/development-factory/README.md) for authoritative story lookup, stage prerequisites, artifact paths, verification evidence and the common handoff. Reuse approvals already granted for the same scope.
+
 ## Authority and prerequisites
 
-1. Read repository `AGENTS.md`, the approved story and its acceptance criteria in `docs/user-stories/`, and relevant `docs/product/` and `docs/architecture/` documentation, including applicable ADRs.
-2. Inspect the actual solution, project references, existing code, test projects, conventions, and the approved implementation plan and QA test design if available. Do not assume a class, pattern, endpoint, database table, or dependency exists.
+1. Retrieve the approved GitHub Issue and separately approved decisions, then read relevant product/architecture docs and ADRs.
+2. Inspect the actual solution, project references, existing code, test projects, conventions, and the human-approved implementation plan and QA test design required for story implementation. Explicitly scoped maintenance follows the shared contract's task exception. Do not assume a class, pattern, endpoint, database table, or dependency exists.
 3. Treat `docs/` as the source of truth for product and architecture decisions. Follow `AGENTS.md` if instructions conflict.
 4. Implement only approved behavior. If a business rule, authorization policy, scoring rule, contract, or schema change is ambiguous, state the specific blocker and request a decision before implementing that affected part; continue with independent approved work when safe.
 5. Do not change acceptance criteria, expand scope, add packages (including EF Core or MediatR), or create/accept ADRs without required approval. Do not push to `main`, merge PRs, or commit secrets.
@@ -36,18 +38,14 @@ description: Implement approved ProdeChamp backend user stories in C#/.NET 10 an
 - Use transactions for approved multi-step operations that require atomicity. Consider uniqueness, concurrency, and idempotency only where the story or existing invariants require them; do not invent product policy.
 - Treat schema changes and data migrations as explicit deliverables requiring approved scope and an appropriate verification/rollback approach. Never alter production data or run destructive scripts without authorization.
 
-## TDD execution (coordinate with `$tdd-implementation`)
+## Backend specialization of TDD
 
-For each approved observable behavior, follow **Red → Green → Refactor**:
+Read and follow [tdd-implementation](../tdd-implementation/SKILL.md); it owns RED, GREEN, refactoring, correction evidence and structural-change exceptions. Run one implementation pass using this specialization, not a second TDD workflow.
 
-1. Select the narrowest meaningful test: Domain/Application unit tests for isolated logic; infrastructure integration tests for SQL behavior; API integration tests for HTTP/auth/boundary behavior.
-2. Write a test that demonstrates an approved criterion. Run it and verify a genuine behavior-related failure (**RED**), not compilation, discovery, setup, or unavailable-environment failure.
-3. Implement the smallest correct change (**GREEN**), rerun the targeted test, then refactor without changing behavior and rerun relevant tests.
-4. Add negative, boundary, and permission scenarios only when grounded in approved requirements or existing invariants. Avoid mocking away the behavior being verified.
-5. Run the relevant regression suite if the environment supports it. Record exact commands, actual outcomes, and any tests skipped or blocked. A command returning success with **zero tests discovered** is not proof of passing tests.
-6. For structure-only work with no testable behavior, explain why behavioral TDD is inapplicable; use appropriate build or structural checks instead. Never manufacture a RED step.
-
-Never weaken, delete, or rewrite a legitimate test simply to make a build pass. Never report a test as passing unless it actually ran and passed.
+- Inspect the actual xUnit package and runner before using fixtures, async lifecycle APIs or filters. The current projects use xUnit 2.9.3 with VSTest; the VS adapter's 3.x version does not imply xUnit v3. Recheck project configuration instead of upgrading it implicitly.
+- Use Domain/Application unit tests for isolated behavior, SQL Server integration tests for persistence and API integration tests for HTTP/auth contracts.
+- For approved SQL work, identify the isolated database, fixture lifecycle, schema prerequisites, cleanup and parallelism policy. Missing infrastructure is a blocker for that boundary, not a reason to substitute mocks or claim integration success.
+- Preserve legitimate tests, explicit SQL parameter typing and the approved contract. Reconcile saved source with the build/test evidence before handoff.
 
 ## Security and API checks
 
@@ -60,11 +58,5 @@ Never weaken, delete, or rewrite a legitimate test simply to make a build pass. 
 
 - Inspect the final diff for accidental scope expansion, architecture violations, unauthorized dependencies, secret leakage, and changed API contracts.
 - Update relevant `docs/` documentation only for authorized, actually implemented changes; do not retrospectively edit approved requirements to match code.
-- Provide an engineering handoff aligned with `AGENTS.md`:
-  1. Story/acceptance criteria addressed, with any unresolved criteria.
-  2. Files changed and purpose, grouped by Domain/Application/Infrastructure/API/Tests/Docs.
-  3. Technical decisions, alternatives considered where material, and any approval needed.
-  4. TDD evidence: exact RED and GREEN commands/results; final build/test commands with **Passed / Failed / Blocked / Not Run / Zero Discovered** distinguished.
-  5. Known limitations, environmental blockers, migrations/API impacts, and residual risks.
-  6. Suggested senior .NET interview questions grounded in the actual implementation.
+- Use the shared handoff and link the single implementation evidence artifact. Identify affected layers, criterion coverage, actual RED/GREEN/regression results, migrations/API impacts and remaining blockers; `engineering-report` owns the final report.
 - Hand off for independent `code-review`, `engineering-report`, PR preparation and CI verification. Do not self-approve or claim external checks, deployment, commits, or merges without evidence.

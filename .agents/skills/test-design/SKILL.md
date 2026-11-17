@@ -5,14 +5,16 @@ description: Design traceable, risk-based test scenarios for approved ProdeChamp
 
 # Test Design — ProdeChamp
 
+Read [AGENTS.md](../../../AGENTS.md) and the [shared factory contract](../../../docs/development-factory/README.md) for authoritative story lookup, stage prerequisites, artifact paths, verification evidence and the common handoff. Reuse approvals already granted for the same scope.
+
 ## Purpose and authority
 
 Act as the QA test designer for ProdeChamp (.NET 10, C#, SQL Server, Angular). Produce an executable-ready **test design**, not speculative product requirements or test results.
 
 1. Read the repository `AGENTS.md` first; its constraints take precedence over this skill.
-2. Read the target story and its **approved** acceptance criteria in `docs/user-stories/`, relevant `docs/product/`, `docs/architecture/README.md`, and applicable ADRs in `docs/architecture/decisions/`.
+2. Retrieve the approved GitHub Issue and separately approved decisions, then read relevant product/architecture docs and ADRs. Verify the human-approved implementation plan before story QA begins; reuse its recorded approval.
 3. Inspect existing code, test-project conventions, and relevant endpoints/contracts only when available. Do not assume that planned integrations exist.
-4. Use `docs/` as the source of truth. If documents conflict, report the conflict; do not silently choose a new business rule.
+4. Use GitHub Issues for approved story criteria and `docs/` for product and architecture decisions. If documents conflict, report the conflict; do not silently choose a new business rule.
 
 ## Scope and guardrails
 
@@ -72,6 +74,7 @@ Where security-sensitive functionality is approved, test access denial and infor
 ### 5. Prepare TDD handoff
 
 - Order cases so `tdd-implementation` can tackle one externally observable behavior at a time with **Red → Green → Refactor**.
+- Hand executable tests to `tdd-implementation` with the appropriate backend/frontend specialization; this skill remains design-only. A request to run QA/RED selects that implementation method explicitly.
 - Recommend the first meaningful failing test and the expected failure reason: *missing behavior*, not compilation, fixture, or infrastructure failure.
 - Identify which tests should remain integration or E2E rather than forcing all tests into isolated unit tests.
 - Provide a traceability summary showing every acceptance criterion covered, partially covered, or blocked.
@@ -79,7 +82,7 @@ Where security-sensitive functionality is approved, test access denial and infor
 
 ## Deliverable format
 
-When a test-design artifact is requested, store it under `docs/test-design/` using the story ID (for example `docs/test-design/US-001-test-design.md`), unless the repository has an established convention. Do not overwrite approved source material.
+Persist requested story design at `docs/stories/{STORY_ID}/test-design.md`. Reuse an existing approved QA artifact when it serves this role; link it in `workflow-status.md` instead of relocating or duplicating historical evidence. Do not overwrite approved source material.
 
 Use this structure:
 
