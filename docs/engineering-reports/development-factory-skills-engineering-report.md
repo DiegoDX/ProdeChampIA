@@ -2,7 +2,7 @@
 
 - Date: 2026-11-17
 - Scope: user-approved repository maintenance and publication from `chore/development-factory-skills` to a PR targeting `main`; no product Issue is closed.
-- Outcome at report creation: local structural verification passed; publication and remote CI pending.
+- Outcome: published for human review; CI failed on pre-existing PRODE-002 behavior. Local structural verification passed.
 - Evidence boundary: base `e39f37450c21e2cf7c02f0dbd11f524a0fd95272`, plus the maintenance working tree described below. Local `.codex/config.toml` changes are excluded from publication.
 
 ## 1. Executive summary
@@ -17,7 +17,7 @@ The changes give 11 existing Skills a shared source, handoff and evidence contra
 | Align Issue baselines, approvals, artifacts and reviews | Verified by inspection | Shared contract, coordinator, review Skills and advisory JSON schema. Schema validity alone cannot establish semantic correctness. |
 | Remove automatic interview deliverables | Verified | Skill deleted; requirements removed from active Skills and PR template; historical documents have no diff. |
 | Retain Visual Studio project visibility | Verified structurally | Solution XML retains all 6 projects and references existing unique solution items. UI inspection not performed. |
-| Commit, push, create PR and verify Actions | Pending at report creation | Authorized scope; remote results will be recorded on the PR and in the final handoff. Human review remains required. |
+| Commit, push, create PR and verify Actions | Published; CI failed | [PR #7](https://github.com/DiegoDX/ProdeChampIA/pull/7), initial head `784abd88a0e6704b94b31c5852ae97560dbe2feb`; both initial runs failed. Human review remains required. |
 
 ## 3. Files changed
 
@@ -57,7 +57,20 @@ Commands ran from `C:\ProdeChampIA\ProdeChampIA`. Git commands used the invocati
 
 Structural checks do not prove every future agent follows these instructions, validate a full story lifecycle or replace human review. Full JSON Schema validation and Visual Studio UI inspection remain unperformed. The integration project currently has no test classes, so successful runner completion must not be reported as integration coverage.
 
-Next action: stage only the reviewed maintenance files, verify the staged diff, commit and push this feature branch, create its PR against `main`, then inspect Actions for that exact head SHA. Record the PR/run URLs, results and actual test totals in the publication handoff. Do not merge. The changed local `.codex/config.toml` remains uncommitted.
+The changed local `.codex/config.toml` remains uncommitted. Human review and a separately scoped PRODE-002 correction are the next actions; the Skills maintenance cannot be presented as having green CI. No product-code correction was attempted and no test was weakened. Unsuccessful correction rounds: 0; the observed CI failures were diagnosed, not repeatedly retried.
+
+## Publication and CI evidence
+
+Published initial maintenance commit `784abd88a0e6704b94b31c5852ae97560dbe2feb` to `chore/development-factory-skills` and created [PR #7](https://github.com/DiegoDX/ProdeChampIA/pull/7) against `main`. No merge was performed. This report update is a subsequent documentation-only commit; the initial run results below apply specifically to `784abd8`. Final-head CI status is recorded in the PR publication handoff rather than treating an earlier run as validation of a later commit.
+
+| Run | Event / tested source | Observed result |
+| --- | --- | --- |
+| [44170201210](https://github.com/DiegoDX/ProdeChampIA/actions/runs/44170201210) | Push, head `784abd88a0e6704b94b31c5852ae97560dbe2feb` | Failed: 83 unit tests, 52 passed, 31 failed, 0 skipped; test command exit 1. |
+| [44170253312](https://github.com/DiegoDX/ProdeChampIA/actions/runs/44170253312) | PR, same head; checkout logged merge `01ebe8c` into base `e39f37450c21e2cf7c02f0dbd11f524a0fd95272` | Restore/build passed, build had 0 warnings/errors. Same unit totals and exit 1; integration and unit-execution guard skipped after failure. TRX upload succeeded. |
+
+Executed remote test command: `dotnet test tests/ProdeChamp.UnitTests/ProdeChamp.UnitTests.csproj --no-build --no-restore --configuration Release --logger "trx;LogFileName=unit-tests.trx" --results-directory TestResults/unit`. Evidence was retrieved using `gh run watch 44170253312 --repo DiegoDX/ProdeChampIA --exit-status --interval 10` (exit 1), `gh run view 44170253312 --repo DiegoDX/ProdeChampIA --log` and `gh run view 44170201210 --repo DiegoDX/ProdeChampIA --log-failed` (retrieval exit 0). Runner working directory was `D:\a\ProdeChampIA\ProdeChampIA`.
+
+Failures belong to `MatchTests`: property preservation and missing argument validation. `Match.cs` still contains a compile-only RED skeleton with an empty constructor. `git diff e39f37450c21e2cf7c02f0dbd11f524a0fd95272 HEAD -- src tests .github/workflows` is empty. `git ls-tree` on both revisions identifies the same `Match.cs` blob `529a59e3171f85c07b04112162eaaa50d04b38d3` and `MatchTests.cs` blob `7286c7c3fa4b24cc73048db81bf7e3bfc0dddf9c`. This establishes that the implicated source and tests were already present in the base, without claiming a separately executed baseline test run. Domain implementation belongs to a separately authorized story/correction, as required by the CI Skill.
 
 ## 7. References
 
