@@ -15,6 +15,10 @@ The integration project still contains no tests. Zero tests discovered there est
 
 For approved behavior changes, follow the red/green workflow in `AGENTS.md`: write a meaningful failing test, confirm the expected failure, implement the behavior and rerun relevant tests. Add integration fixtures when a story actually needs them.
 
+## PRODE-002 — constructor correction, 2026-11-17
+
+The existing 39 `MatchTests` cases were reused unchanged. A fresh run against the skeleton produced 31 behavioral failures and 8 passes; after property assignment and ID/UTC/status guards, all 39 passed. The Release solution build succeeded with 0 warnings/errors and all 83 unit tests passed (39 PRODE-002 plus the unchanged 44 PRODE-001 cases), with 0 failures/skips. Integration executed 0 cases. AC3 and team validation remain deferred and untested; green scoped tests do not establish full Issue completion. These are local results on `fix/PRODE-002-match-construction`, not a remote CI result. Exact commands, source identities and TRX paths are in [implementation evidence](../stories/PRODE-002/implementation-evidence.md); see also the [engineering report](../engineering-reports/PRODE-002-correction-engineering-report.md).
+
 ## Continuous integration
 
 Use the [ci skill](../../.agents/skills/ci/SKILL.md) to configure or verify the existing [.NET CI workflow](../../.github/workflows/ci.yml). It restores and builds in Release, runs unit and integration projects separately, requires at least one executed unit test, and retains TRX evidence. Integration currently has zero tests; this is reported separately.
