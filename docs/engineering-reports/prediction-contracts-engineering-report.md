@@ -66,6 +66,8 @@ Exact commands, test failures and source snapshot: [implementation evidence](pre
 | Diff check and self-review | Passed in inspected scope | No whitespace errors or remaining old production/test references; no independent-review gate claimed |
 | Publication revalidation | Passed | Restored the missing new test file to its identical recorded SHA-256; fresh Release build 0 warnings/errors and publication-unit.trx 146 passed, 0 failed/skipped |
 | Independent code / architecture reviews | APPROVED | Distinct review-only agents independently reconciled all four source hashes and fresh raw build/TRX evidence; no findings |
+| Correction publication | Passed | Remote source commit f83d018f8ffac08afab64ad199770922e0883f1a; exactly17 scoped paths; existing PR #13 targets main; all four reviewed remote hashes match |
+| Exact source-head GitHub CI | Passed | Push44602568548 and PR44602579210 SUCCESS; both raw artifacts146 passed0failed/skipped,22 cutoff/41 creation; integration0; PR merge build0 warnings/errors |
 | Solution visibility | Passed | Linked files exist, six projects retained, SDK default inclusion preserved |
 
 ## 6. Risks, limitations and follow-up actions
@@ -73,9 +75,9 @@ Exact commands, test failures and source snapshot: [implementation evidence](pre
 - A Guid alone does not establish database/catalog match existence. The caller must supply the associated match ID and scheduled kickoff; persistence/lookup is outside this task.
 - Public evaluation uses the system clock of the process executing it, so it must run on the server. No API or server deployment was added or verified.
 - No editing/saving, authorization or integration behavior is implemented. The integration project contains no tests.
-- Local `.git` is read-only. The user subsequently authorized publication to feature/PRODE-004 and a PR to main. Existing PR #13 will be updated rather than duplicated, using authenticated `gh api` Git Data operations with a guarded, non-forced feature-ref update; local Git metadata will remain unchanged. No merge or Issue update is authorized.
-- Independent correction code and architecture reviews are APPROVED. Exact-head remote CI is pending publication; historical story reviews/CI do not establish correction CI.
-- The first automatic restore attempt failed reading the user NuGet configuration. Builds/tests succeeded with existing restored assets using `--no-restore`; clean restore was not verified.
+- Local `.git` is read-only. Under the user's follow-up publication authorization, source commit f83d018 was published through authenticated `gh api` Git Data operations with a guarded, non-forced feature-ref update; existing [PR #13](https://github.com/DiegoDX/ProdeChampIA/pull/13) was updated rather than duplicated. Local HEAD remains33caab5 and needs user synchronization; no restricted metadata/permissions were changed.
+- Independent correction code and architecture reviews are APPROVED. Exact source-head push/PR CI passed, as detailed in the [CI report](../stories/PRODE-004/ci-report.md). A final documentation-only checkpoint records these results; final checkpoint SHA/checks are verified and recorded in PR body/Checks before handoff. No merge or Issue update was performed.
+- The first local automatic restore attempt failed reading the user NuGet configuration. Local builds/tests used existing assets with `--no-restore`; both current source-head GitHub runs completed clean Restore/Build/Tests successfully.
 
 ## 7. References
 
