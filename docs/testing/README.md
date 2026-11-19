@@ -1,10 +1,12 @@
 # Testing
 
-## PRODE-004 - cutoff verification
+## Prediction contracts correction - 2026-11-19
 
-PredictionEditCutoffTests adds 21 Domain unit cases: five strict-boundary rows including adjacent ticks, null Match, four nonzero UTC offsets, six date extremes/year-crossing rows, four defined statuses and independent repeated validation instants. Three observed RED/GREEN cycles introduced comparison, null guard and UTC guard; remaining boundary cases passed immediately. No tests were weakened.
+`PredictionCanEditTests` replaces PredictionEditCutoffTests with 22 cases: five strict-boundary rows including adjacent ticks, six nonzero kickoff UTC offsets, six date extremes/year-crossing rows, public server-time behavior, repeated attempts with an advancing clock, single clock capture, prediction nonmutation and an internal null-TimeProvider guard. A test-local TimeProvider supplies deterministic instants without sleeps or new packages. The public method still takes only scheduled kickoff and uses TimeProvider.System.
 
-Fresh Release build passed with 0 warnings/errors; unit regression executed/passed 147 (21 new plus 126 existing), 0 failed/skipped. Integration discovered/executed zero. AC-04 also requires review of the absence of clock/save-time rechecks, and AC-05 requires review of the pure rule's absence of prediction access/mutation; those are review obligations, not additional automated cases or saving integration. Exact commands, hashes and raw TRX paths are in [implementation evidence](../stories/PRODE-004/implementation-evidence.md). [Workflow status](../stories/PRODE-004/workflow-status.md) tracks independent reviews/publication/CI separately from local results.
+`PredictionTests` now has 41 cases using Guid match IDs. Null-Match rejection becomes Guid.Empty rejection; four Match-status construction rows become two nonempty Guid boundary rows. Duplicate-pair tests retain score-independent rejection without obsolete object-identity fixtures. All participant, goal, registration UTC/date, context, duplicate and nonmutation checks remain. Status cannot influence APIs that no longer accept Match/status.
+
+Observed behavioral RED: 41 factory failures and 22 cutoff failures against separately recorded throwing shapes. Factory GREEN passed 41 and combined prediction GREEN passed 63. Current full verification and source identity are recorded in the [correction evidence](../engineering-reports/prediction-contracts-implementation-evidence.md) and [engineering report](../engineering-reports/prediction-contracts-engineering-report.md). Earlier PRODE-003/004 counts, reviews and CI below/under story folders apply to historical source; they are not evidence for the corrected contracts. Saving integration remains outside this evaluation-only rule.
 
 Run from the repository root:
 
@@ -31,7 +33,7 @@ Use the [ci skill](../../.agents/skills/ci/SKILL.md) to configure or verify the 
 
 The workflow covers pushes to branches, PRs targeting `main` and manual execution. Local verification passed 44 unit tests and the zero-execution guard's negative check. GitHub run [40529598727](https://github.com/DiegoDX/ProdeChampIA/actions/runs/40529598727) passed restore, Release build, 44 unit tests, the execution guard and TRX upload for implementation commit `fe9155f`. Integration executed zero tests. See the [CI report](../stories/PRODE-001/ci-report.md) for exact results, publication and limitations. Deployment is outside this Skill and workflow.
 
-## PRODE-003 — approved Domain creation contract
+## PRODE-003 — original creation verification (historical)
 
 The [QA matrix](../stories/PRODE-003/test-design.md) maps 20 case groups to 43 executed PredictionTests cases: preserved IDs/score/UTC ticks, null/empty participant, null Match, negative/zero/int.MaxValue goals, UTC/date boundaries, required usable context, duplicate ID pairs with same/different scores, different pairs, input nonmutation, stateless repeated calls, independent values and all existing Match statuses. Snapshot completeness and external catalog existence are outside the accepted boundary; no integration/clock/distributed uniqueness coverage is claimed.
 

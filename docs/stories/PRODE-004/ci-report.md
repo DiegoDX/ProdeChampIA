@@ -2,6 +2,14 @@
 
 ## Authority and scope
 
+### Current contract correction - 2026-11-19
+
+User authorized publishing the entity/primitive-input correction on feature/PRODE-004 and its PR to main. Existing [PR #13](https://github.com/DiegoDX/ProdeChampIA/pull/13) is reused. Preflight remote parent `48fd50992998e3f4a0f2663a1e958dbdbb1b0c54`, main unchanged at `950ec8963012f2367ae2a95a1891f8b10ba84458`. Fresh local Release build0 warnings/errors, 146 unit executed/passed0failed/skipped; integration remains0. Independent correction code/architecture reviews APPROVED. See [correction evidence](../../engineering-reports/prediction-contracts-implementation-evidence.md).
+
+Current-head remote verification is pending publication. Historical147-case runs below cover the previous static evaluator, not these changed contracts. Publish only inspected correction/review/document paths via guarded, non-forced Git Data API feature-ref update; preserve local .git read-only restrictions, existing remote history and unrelated skill edits. No workflow changes or Actions mutations are needed. Final exact-head results must be checked and recorded; a successful older run is insufficient.
+
+### Original-contract publication (historical)
+
 The user explicitly authorized local commits, pushing feature/PRODE-004 and creating a PR against main, with passing checks and final human review; no merge, auto-merge, Issue write or deployment. Publish only inspected story files; preserve/exclude pre-existing architect/tdd-implementation skill edits. Existing .NET CI is sufficient; no pipeline edits or Actions mutations are needed.
 
 Baseline main: `950ec8963012f2367ae2a95a1891f8b10ba84458`. Fresh Issue #10 body/updatedAt matched the planning baseline on prepublication refresh; no matching PR existed (`gh pr list --repo DiegoDX/ProdeChampIA --head feature/PRODE-004 --state all --json number,state,url,headRefOid`, exit 0, empty array).

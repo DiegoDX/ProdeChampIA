@@ -1,6 +1,8 @@
-# Engineering Report - PRODE-004
+﻿# Engineering Report - PRODE-004
 
 - Date: 2026-11-19.
+
+> Current correction: the user replaced the static cutoff evaluator with Prediction.CanEdit using internal server time and changed Create to Guid matchId. See the [correction report](prediction-contracts-engineering-report.md), [evidence](prediction-contracts-implementation-evidence.md) and independent review links there. Fresh local build passed0 warnings/errors and146 unit cases passed; correction publication/CI is tracked in [workflow status](../stories/PRODE-004/workflow-status.md). The original implementation results below are historical and do not verify the new source.
 - Scope: [Issue #10](https://github.com/DiegoDX/ProdeChampIA/issues/10), evaluation-only scheduled edit cutoff; unchanged business requirements.
 - Outcome: Local engineering complete; [PR #13](https://github.com/DiegoDX/ProdeChampIA/pull/13) published, implementation push/PR CI passed; final exact-head verification is recorded in PR body/Checks before delivery.
 - Source boundary: feature/PRODE-004 from `950ec8963012f2367ae2a95a1891f8b10ba84458`; frozen source/test hashes in implementation evidence and independent reviews.

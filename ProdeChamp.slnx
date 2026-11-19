@@ -58,6 +58,10 @@
     <File Path="docs/development-factory/review-result.schema.json" />
   </Folder>
   <Folder Name="/docs/engineering-reports/">
+    <File Path="docs/engineering-reports/prediction-contracts-code-review.md" />
+    <File Path="docs/engineering-reports/prediction-contracts-architecture-review.md" />
+    <File Path="docs/engineering-reports/prediction-contracts-engineering-report.md" />
+    <File Path="docs/engineering-reports/prediction-contracts-implementation-evidence.md" />
     <File Path="docs/engineering-reports/PRODE-004-engineering-report.md" />
     <File Path="docs/engineering-reports/PRODE-003-engineering-report.md" />
     <File Path="docs/engineering-reports/development-factory-skills-engineering-report.md" />

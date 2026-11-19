@@ -6,10 +6,22 @@
 - Branch: `feature/PRODE-004`; verified baseline main: `950ec8963012f2367ae2a95a1891f8b10ba84458`. Implementation commit/local HEAD after user-terminal publication: `33caab5a34717d2b058bc64f9bbe4bbe5af3e77b`, verified against the published branch ref. Any final documentation-only head is identified by PR #13 and its exact-head verification in the PR body/Checks.
 - Pre-existing changes: `.agents/skills/architect/SKILL.md` and `.agents/skills/tdd-implementation/SKILL.md`. Preserved; exclude from story commits/publication.
 - Environment: initial directory/file writes were denied. User refreshed inheritance on docs, src, tests and .local from their own PowerShell. Current probes passed directory creation, file creation/modification/read-back and cleanup in docs/stories, src, tests and .local; apply_patch write/read-back also passed in docs/stories. No permission changes were executed by the agent.
-- Current stage: **Local engineering/reviews passed; PR #13 published; exact final-head CI verification pending in PR body/Checks before final handoff**.
+- Current stage: **User-authorized contract correction locally verified and independently reviewed; publication to existing PR #13 in progress**. Current correction source/evidence below supersede original-contract completion claims.
 - Unsuccessful correction rounds: **0/3**. Environment prerequisites were not behavioral RED or implementation correction rounds.
 
 ## Stage ledger
+
+### Current contract correction - 2026-11-19
+
+The user explicitly requested instance `Prediction.CanEdit(DateTimeOffset matchStartTimeUtc)` with internal server time, removal of PredictionEditCutoff, Guid matchId in Create and matching test changes; then authorized uploading to the PRODE-004 branch and its PR to main. This is separately approved scoped maintenance, not an edit to Issue criteria. The [correction plan/evidence](../../engineering-reports/prediction-contracts-implementation-evidence.md) and [report](../../engineering-reports/prediction-contracts-engineering-report.md) own the current scope.
+
+- Branch/PR: existing feature/PRODE-004 / [PR #13](https://github.com/DiegoDX/ProdeChampIA/pull/13), OPEN/non-draft, base main. Remote parent `48fd50992998e3f4a0f2663a1e958dbdbb1b0c54`; main `950ec8963012f2367ae2a95a1891f8b10ba84458`. Fresh Issue unchanged; updatedAt `2026-11-18T23:50:54Z`.
+- Verification Passed: restored missing new test source to its identical tested hash, fresh Release build0 warnings/errors and 146 unit passes/0failed/skipped. Integration0, no coverage claim. Original source/test snapshot now replaced by four hashes in correction evidence.
+- Reviews Passed: independent [code](../../engineering-reports/prediction-contracts-code-review.md) and [architecture](../../engineering-reports/prediction-contracts-architecture-review.md) reviewers APPROVED, no findings, matching final hashes/raw evidence.
+- Publication Running: use guarded non-forced Git Data feature-ref publication because local .git remains read-only; retain existing remote parent, exclude unrelated .agents edits and update existing PR rather than duplicating it. Exact-head CI pending publication.
+- Refinement/architect/QA lifecycle stages Not applicable to this explicitly scoped correction; user decisions and local plan/matrix recorded before implementation. No new business rules/dependencies or Issue edits. Frontend/SQL/API remain outside scope. Skills used: TDD/backend/report for implementation, story-workflow/code-review/architecture-review/ci for publication.
+
+### Original-contract lifecycle (historical)
 
 | Stage / skill | Status | Evidence / next action |
 | --- | --- | --- |
