@@ -1,13 +1,13 @@
-﻿# Engineering Report - PRODE-004
+# Engineering Report - PRODE-004
 
 - Date: 2026-11-19.
 - Scope: [Issue #10](https://github.com/DiegoDX/ProdeChampIA/issues/10), evaluation-only scheduled edit cutoff; unchanged business requirements.
-- Outcome: Local engineering complete; publication blocked by .git write restriction, remote CI not run.
+- Outcome: Local engineering complete; [PR #13](https://github.com/DiegoDX/ProdeChampIA/pull/13) published, implementation push/PR CI passed; final exact-head verification is recorded in PR body/Checks before delivery.
 - Source boundary: feature/PRODE-004 from `950ec8963012f2367ae2a95a1891f8b10ba84458`; frozen source/test hashes in implementation evidence and independent reviews.
 
 ## 1. Executive summary
 
-PredictionEditCutoff.IsAllowed now permits validation strictly before scheduled kickoff and blocks equality or later. It uses the supplied server validation instant without accessing or modifying predictions, and introduces no new dependency or outward-layer behavior. Three observed RED/GREEN cycles, the Release build and 147 unit cases passed. Independent architecture/code reviews are APPROVED with no findings. Publication and exact-head remote CI remain to be completed by the coordinator.
+PredictionEditCutoff.IsAllowed now permits validation strictly before scheduled kickoff and blocks equality or later. It uses the supplied server validation instant without accessing or modifying predictions, and introduces no new dependency or outward-layer behavior. Three observed RED/GREEN cycles, the Release build and 147 unit cases passed. Independent architecture/code reviews are APPROVED with no findings. Implementation commit33caab5 is published in PR #13 with successful push CI and raw remote unit147/integration0 evidence; final metadata-head checks must be verified separately in the PR body/Checks before delivery.
 
 ## 2. Acceptance criteria traceability
 
@@ -55,13 +55,13 @@ The user's full-workflow instruction followed the concrete plan handoff and auth
 | Independent architecture review | APPROVED, no findings; reviewer /root/prode004_arch_review verified hashes/raw TRX and reran 21 focused passes. |
 | Independent code review | APPROVED, no findings; reviewer /root/prode004_code_review verified hashes/raw TRX and reran 21 focused passes. |
 | Documentation/solution/source checks | Final script .local/PRODE-004/verify-story.ps1 checks all links/projects, exact Issue body, current source/test hashes, whitespace, unchanged old source/tests and document credential patterns; actual final result belongs in workflow status. |
-| Publication / GitHub CI | Blocked: explicit story staging failed exit128 creating .git/index.lock (Permission denied). No commit/push/PR; remote CI not run. User-terminal publication script prepared; see CI report. |
+| Publication / GitHub CI | User-terminal commit/push succeeded as33caab5, agent created PR #13. Push44549746982 and PR44549866439 SUCCESS; downloaded raw TRX unit147 passed/failed-skipped0, integration0, including21 new cases. PR merge d6d9b5b tested, build0 warnings/errors. Final metadata-head check outcomes belong to PR body/Checks; no older-run substitution. |
 
 Exact commands and raw evidence locations are in implementation evidence and review reports. No unsuccessful implementation correction rounds (0/3). Passing unit tests are not evidence of excluded API/SQL/edit/save behavior.
 
 ## 6. Risks, limitations and next action
 
-Publish only the reviewed story files using the user's explicit commit/push/PR authorization, then verify actual .NET CI checks against the exact PR head. main is unprotected and its sole ruleset is disabled, so there are no enforced required checks; nevertheless all actual CI checks must succeed before handoff. Final review belongs to the user; no merge, auto-merge, Issue update or deployment is allowed/performed.
+The reviewed15 story files were committed/pushed by the user using the prepared helper after agent Git staging was blocked by read-only .git; the agent created PR #13. A documentation-only checkpoint may be published through the authenticated GitHub Git Data API on the same feature branch, without changing local .git. Local Git metadata stays at the implementation commit until user synchronization; final document contents and reviewed code can still match the published tree. Final exact-head check results are persisted in PR body/Checks to avoid a self-referential documentation hash. main is unprotected and its sole ruleset disabled, so no enforced required checks exist; nevertheless all actual CI checks must succeed before handoff. Final review belongs to the user; no merge, auto-merge, Issue update or deployment was performed.
 
 Caller time provenance, match lookup, future saving concurrency and rescheduling remain outside this increment. Integration has zero cases. These limits are explicit in the plan, API remarks and independent reviews. Any production/test source change invalidates the frozen-source evidence/reviews until reassessed.
 
