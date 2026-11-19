@@ -1,5 +1,11 @@
 # Product documentation
 
+## PRODE-004 - scheduled edit cutoff
+
+[Issue #10](https://github.com/DiegoDX/ProdeChampIA/issues/10) is implemented as an evaluation-only Domain rule. PredictionEditCutoff.IsAllowed permits an attempt strictly before Match.StartTimeUtc and blocks equality or later, using the trusted zero-offset UTC server validation instant supplied by the caller. Opening a form earlier or a delayed actual kickoff does not extend the scheduled deadline. Preserve the decision for that attempt if later processing crosses kickoff; no editing or saving is implemented here.
+
+Evaluation neither accesses nor changes Prediction and adds no status restrictions. Correct associated-match selection and trustworthy time sourcing remain caller prerequisites; passing this cutoff does not establish full edit permission. Creation, UI, API, SQL, authorization, scoring and rescheduling remain excluded. [Implementation evidence](../stories/PRODE-004/implementation-evidence.md) records 21 new / 147 total passing local unit cases; reviews and remote CI are recorded separately in [workflow status](../stories/PRODE-004/workflow-status.md).
+
 ProdeChamp is a football prediction platform. Product behavior, scoring, competitions and permissions require approved user stories before implementation.
 
 Store approved product scope and business rules here. Sprint 0 defines no business rules.

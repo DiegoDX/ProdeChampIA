@@ -1,5 +1,11 @@
 # Architecture
 
+## PRODE-004 - pure cutoff rule
+
+Domain adds Predictions/PredictionEditCutoff with static IsAllowed(Match, DateTimeOffset). It guards a null Match and a nonzero validation offset, then compares the explicit captured validation instant strictly against Match.StartTimeUtc. It has no clock, retained state, Prediction access, scoring, status policy or persistence. The caller supplies the associated Match and trusted server time; a true result passes only this rule and must be preserved for that attempt through later processing.
+
+No project/package reference, interface, DI registration or outer-layer implementation changes. Match and Prediction contracts remain unchanged. The [plan](../stories/PRODE-004/implementation-plan.md), [QA design](../stories/PRODE-004/test-design.md) and [evidence](../stories/PRODE-004/implementation-evidence.md) distinguish evaluation-only AC-04/05 verification from excluded edit/save integration. Review/CI status belongs to [workflow status](../stories/PRODE-004/workflow-status.md).
+
 The solution follows pragmatic Clean Architecture. All six projects target `net10.0` with nullable reference types and implicit usings enabled.
 
 | Project | Direct project references | Responsibility |

@@ -1,5 +1,11 @@
 # Testing
 
+## PRODE-004 - cutoff verification
+
+PredictionEditCutoffTests adds 21 Domain unit cases: five strict-boundary rows including adjacent ticks, null Match, four nonzero UTC offsets, six date extremes/year-crossing rows, four defined statuses and independent repeated validation instants. Three observed RED/GREEN cycles introduced comparison, null guard and UTC guard; remaining boundary cases passed immediately. No tests were weakened.
+
+Fresh Release build passed with 0 warnings/errors; unit regression executed/passed 147 (21 new plus 126 existing), 0 failed/skipped. Integration discovered/executed zero. AC-04 also requires review of the absence of clock/save-time rechecks, and AC-05 requires review of the pure rule's absence of prediction access/mutation; those are review obligations, not additional automated cases or saving integration. Exact commands, hashes and raw TRX paths are in [implementation evidence](../stories/PRODE-004/implementation-evidence.md). [Workflow status](../stories/PRODE-004/workflow-status.md) tracks independent reviews/publication/CI separately from local results.
+
 Run from the repository root:
 
 ```powershell
