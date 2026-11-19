@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Compile Update="Scoring\PredictionPointsCalculator.cs" Visible="true" />
+    <InternalsVisibleTo Include="ProdeChamp.UnitTests" />
   </ItemGroup>
 
 </Project>

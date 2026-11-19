@@ -58,6 +58,11 @@
     <File Path="docs/development-factory/review-result.schema.json" />
   </Folder>
   <Folder Name="/docs/engineering-reports/">
+    <File Path="docs/engineering-reports/prediction-contracts-code-review.md" />
+    <File Path="docs/engineering-reports/prediction-contracts-architecture-review.md" />
+    <File Path="docs/engineering-reports/prediction-contracts-engineering-report.md" />
+    <File Path="docs/engineering-reports/prediction-contracts-implementation-evidence.md" />
+    <File Path="docs/engineering-reports/PRODE-004-engineering-report.md" />
     <File Path="docs/engineering-reports/PRODE-003-engineering-report.md" />
     <File Path="docs/engineering-reports/development-factory-skills-engineering-report.md" />
     <File Path="docs/engineering-reports/PRODE-002-correction-engineering-report.md" />
@@ -68,6 +73,16 @@
     <File Path="docs/retrospectives/sprint-0.md" />
   </Folder>
   <Folder Name="/docs/stories/" />
+  <Folder Name="/docs/stories/PRODE-004/">
+    <File Path="docs/stories/PRODE-004/architecture-review.md" />
+    <File Path="docs/stories/PRODE-004/code-review.md" />
+    <File Path="docs/stories/PRODE-004/ci-report.md" />
+    <File Path="docs/stories/PRODE-004/implementation-evidence.md" />
+    <File Path="docs/stories/PRODE-004/test-design.md" />
+    <File Path="docs/stories/PRODE-004/workflow-status.md" />
+    <File Path="docs/stories/PRODE-004/refinement.md" />
+    <File Path="docs/stories/PRODE-004/implementation-plan.md" />
+  </Folder>
   <Folder Name="/docs/stories/PRODE-003/">
     <File Path="docs/stories/PRODE-003/architecture-review.md" />
     <File Path="docs/stories/PRODE-003/code-review.md" />

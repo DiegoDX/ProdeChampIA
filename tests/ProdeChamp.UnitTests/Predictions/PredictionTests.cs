@@ -1,4 +1,3 @@
-using ProdeChamp.Domain.Matches;
 using ProdeChamp.Domain.Predictions;
 
 namespace ProdeChamp.UnitTests.Predictions;
@@ -17,9 +16,9 @@ public sealed class PredictionTests
     [Fact]
     public void Create_WithValidInputs_PreservesAssociationsScoreAndUtcTimestamp()
     {
-        var match = CreateMatch(MatchAId);
+        var matchId = MatchAId;
 
-        var prediction = Prediction.Create(ParticipantA, match, 2, 1, RegisteredAtUtc, []);
+        var prediction = Prediction.Create(ParticipantA, matchId, 2, 1, RegisteredAtUtc, []);
 
         Assert.Equal(ParticipantA, prediction.ParticipantId);
         Assert.Equal(MatchAId, prediction.MatchId);
@@ -34,7 +33,7 @@ public sealed class PredictionTests
     public void Create_WithNullParticipantId_ThrowsForParticipantId()
     {
         var exception = Assert.Throws<ArgumentNullException>(() =>
-            Prediction.Create(null, CreateMatch(MatchAId), 2, 1, RegisteredAtUtc, []));
+            Prediction.Create(null, MatchAId, 2, 1, RegisteredAtUtc, []));
 
         Assert.Equal("participantId", exception.ParamName);
     }
@@ -44,19 +43,19 @@ public sealed class PredictionTests
     public void Create_WithEmptyParticipantId_ThrowsForParticipantId()
     {
         var exception = Assert.Throws<ArgumentException>(() =>
-            Prediction.Create(Guid.Empty, CreateMatch(MatchAId), 2, 1, RegisteredAtUtc, []));
+            Prediction.Create(Guid.Empty, MatchAId, 2, 1, RegisteredAtUtc, []));
 
         Assert.Equal("participantId", exception.ParamName);
     }
 
-    // P06: AC-04. Empty Match IDs are already rejected by Match construction.
+    // P06: the Guid contract now owns empty match ID rejection.
     [Fact]
-    public void Create_WithNullMatch_ThrowsForMatch()
+    public void Create_WithEmptyMatchId_ThrowsForMatchId()
     {
-        var exception = Assert.Throws<ArgumentNullException>(() =>
-            Prediction.Create(ParticipantA, null, 2, 1, RegisteredAtUtc, []));
+        var exception = Assert.Throws<ArgumentException>(() =>
+            Prediction.Create(ParticipantA, Guid.Empty, 2, 1, RegisteredAtUtc, []));
 
-        Assert.Equal("match", exception.ParamName);
+        Assert.Equal("matchId", exception.ParamName);
     }
 
     // P07: AC-02, independent negative home values.
@@ -66,7 +65,7 @@ public sealed class PredictionTests
     public void Create_WithNegativeHomeGoals_ThrowsForHomeGoals(int homeGoals)
     {
         var exception = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            Prediction.Create(ParticipantA, CreateMatch(MatchAId), homeGoals, 1, RegisteredAtUtc, []));
+            Prediction.Create(ParticipantA, MatchAId, homeGoals, 1, RegisteredAtUtc, []));
 
         Assert.Equal("predictedHomeGoals", exception.ParamName);
     }
@@ -78,7 +77,7 @@ public sealed class PredictionTests
     public void Create_WithNegativeAwayGoals_ThrowsForAwayGoals(int awayGoals)
     {
         var exception = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            Prediction.Create(ParticipantA, CreateMatch(MatchAId), 2, awayGoals, RegisteredAtUtc, []));
+            Prediction.Create(ParticipantA, MatchAId, 2, awayGoals, RegisteredAtUtc, []));
 
         Assert.Equal("predictedAwayGoals", exception.ParamName);
     }
@@ -96,7 +95,7 @@ public sealed class PredictionTests
         var registrationTime = RegisteredAtUtc.ToOffset(TimeSpan.FromMinutes(offsetMinutes));
 
         var exception = Assert.Throws<ArgumentException>(() =>
-            Prediction.Create(ParticipantA, CreateMatch(MatchAId), 2, 1, registrationTime, []));
+            Prediction.Create(ParticipantA, MatchAId, 2, 1, registrationTime, []));
 
         Assert.Equal("registeredAtUtc", exception.ParamName);
     }
@@ -106,7 +105,7 @@ public sealed class PredictionTests
     public void Create_WithNullActivePredictions_ThrowsForActivePredictions()
     {
         var exception = Assert.Throws<ArgumentNullException>(() =>
-            Prediction.Create(ParticipantA, CreateMatch(MatchAId), 2, 1, RegisteredAtUtc, null!));
+            Prediction.Create(ParticipantA, MatchAId, 2, 1, RegisteredAtUtc, null!));
 
         Assert.Equal("activePredictions", exception.ParamName);
     }
@@ -118,28 +117,25 @@ public sealed class PredictionTests
     public void Create_WithNullContextEntry_ThrowsForActivePredictions(bool validEntryFirst)
     {
         IReadOnlyCollection<Prediction> activePredictions = validEntryFirst
-            ? [Prediction.Create(ParticipantB, CreateMatch(MatchBId), 0, 0, RegisteredAtUtc, []), null!]
+            ? [Prediction.Create(ParticipantB, MatchBId, 0, 0, RegisteredAtUtc, []), null!]
             : [null!];
 
         var exception = Assert.Throws<ArgumentException>(() =>
-            Prediction.Create(ParticipantA, CreateMatch(MatchAId), 2, 1, RegisteredAtUtc, activePredictions));
+            Prediction.Create(ParticipantA, MatchAId, 2, 1, RegisteredAtUtc, activePredictions));
 
         Assert.Equal("activePredictions", exception.ParamName);
     }
 
-    // P13: BR5, score and Match object identity do not change pair identity.
+    // P13: BR5, scores do not change participant/match ID pair identity.
     [Theory]
     [InlineData(2, 1)]
     [InlineData(0, 0)]
-    public void Create_WithDuplicatePair_ThrowsRegardlessOfScoreOrMatchInstance(int existingHome, int existingAway)
+    public void Create_WithDuplicatePair_ThrowsRegardlessOfScore(int existingHome, int existingAway)
     {
-        var existingMatch = CreateMatch(MatchAId);
-        var candidateMatch = CreateMatch(MatchAId);
-        var existing = Prediction.Create(ParticipantA, existingMatch, existingHome, existingAway, RegisteredAtUtc, []);
-        Assert.NotSame(existingMatch, candidateMatch);
+        var existing = Prediction.Create(ParticipantA, MatchAId, existingHome, existingAway, RegisteredAtUtc, []);
 
         Assert.Throws<InvalidOperationException>(() =>
-            Prediction.Create(ParticipantA, candidateMatch, 2, 1, RegisteredAtUtc, [existing]));
+            Prediction.Create(ParticipantA, MatchAId, 2, 1, RegisteredAtUtc, [existing]));
     }
 
     // P14: BR5, do not stop after the first unrelated entry.
@@ -148,22 +144,22 @@ public sealed class PredictionTests
     {
         IReadOnlyCollection<Prediction> activePredictions =
         [
-            Prediction.Create(ParticipantA, CreateMatch(MatchBId), 0, 0, RegisteredAtUtc, []),
-            Prediction.Create(ParticipantB, CreateMatch(MatchAId), 0, 0, RegisteredAtUtc, []),
-            Prediction.Create(ParticipantA, CreateMatch(MatchAId), 0, 0, RegisteredAtUtc, [])
+            Prediction.Create(ParticipantA, MatchBId, 0, 0, RegisteredAtUtc, []),
+            Prediction.Create(ParticipantB, MatchAId, 0, 0, RegisteredAtUtc, []),
+            Prediction.Create(ParticipantA, MatchAId, 0, 0, RegisteredAtUtc, [])
         ];
 
         Assert.Throws<InvalidOperationException>(() =>
-            Prediction.Create(ParticipantA, CreateMatch(MatchAId), 2, 1, RegisteredAtUtc, activePredictions));
+            Prediction.Create(ParticipantA, MatchAId, 2, 1, RegisteredAtUtc, activePredictions));
     }
 
     // P15: BR5, a different match permits the same participant.
     [Fact]
     public void Create_WithSameParticipantAndDifferentMatch_Succeeds()
     {
-        var existing = Prediction.Create(ParticipantA, CreateMatch(MatchAId), 0, 0, RegisteredAtUtc, []);
+        var existing = Prediction.Create(ParticipantA, MatchAId, 0, 0, RegisteredAtUtc, []);
 
-        var prediction = Prediction.Create(ParticipantA, CreateMatch(MatchBId), 2, 1, RegisteredAtUtc, [existing]);
+        var prediction = Prediction.Create(ParticipantA, MatchBId, 2, 1, RegisteredAtUtc, [existing]);
 
         Assert.Equal(ParticipantA, prediction.ParticipantId);
         Assert.Equal(MatchBId, prediction.MatchId);
@@ -173,9 +169,9 @@ public sealed class PredictionTests
     [Fact]
     public void Create_WithDifferentParticipantAndSameMatch_Succeeds()
     {
-        var existing = Prediction.Create(ParticipantA, CreateMatch(MatchAId), 0, 0, RegisteredAtUtc, []);
+        var existing = Prediction.Create(ParticipantA, MatchAId, 0, 0, RegisteredAtUtc, []);
 
-        var prediction = Prediction.Create(ParticipantB, CreateMatch(MatchAId), 2, 1, RegisteredAtUtc, [existing]);
+        var prediction = Prediction.Create(ParticipantB, MatchAId, 2, 1, RegisteredAtUtc, [existing]);
 
         Assert.Equal(ParticipantB, prediction.ParticipantId);
         Assert.Equal(MatchAId, prediction.MatchId);
@@ -187,18 +183,18 @@ public sealed class PredictionTests
     [InlineData(true)]
     public void Create_WithCallerOwnedList_DoesNotModifyIt(bool duplicate)
     {
-        var existing = Prediction.Create(ParticipantA, CreateMatch(MatchAId), 0, 0, RegisteredAtUtc, []);
+        var existing = Prediction.Create(ParticipantA, MatchAId, 0, 0, RegisteredAtUtc, []);
         var activePredictions = new List<Prediction> { existing };
         var before = activePredictions.ToArray();
 
         if (duplicate)
         {
             Assert.Throws<InvalidOperationException>(() =>
-                Prediction.Create(ParticipantA, CreateMatch(MatchAId), 2, 1, RegisteredAtUtc, activePredictions));
+                Prediction.Create(ParticipantA, MatchAId, 2, 1, RegisteredAtUtc, activePredictions));
         }
         else
         {
-            var prediction = Prediction.Create(ParticipantB, CreateMatch(MatchAId), 2, 1, RegisteredAtUtc, activePredictions);
+            var prediction = Prediction.Create(ParticipantB, MatchAId, 2, 1, RegisteredAtUtc, activePredictions);
             Assert.Equal(ParticipantB, prediction.ParticipantId);
         }
 
@@ -219,7 +215,7 @@ public sealed class PredictionTests
     [InlineData(int.MaxValue, int.MaxValue)]
     public void Create_WithNonnegativeGoalBoundaries_PreservesGoals(int homeGoals, int awayGoals)
     {
-        var prediction = Prediction.Create(ParticipantA, CreateMatch(MatchAId), homeGoals, awayGoals, RegisteredAtUtc, []);
+        var prediction = Prediction.Create(ParticipantA, MatchAId, homeGoals, awayGoals, RegisteredAtUtc, []);
 
         Assert.Equal(homeGoals, prediction.PredictedHomeGoals);
         Assert.Equal(awayGoals, prediction.PredictedAwayGoals);
@@ -233,7 +229,7 @@ public sealed class PredictionTests
     {
         var participantId = Guid.Parse(idText);
 
-        var prediction = Prediction.Create(participantId, CreateMatch(MatchAId), 2, 1, RegisteredAtUtc, []);
+        var prediction = Prediction.Create(participantId, MatchAId, 2, 1, RegisteredAtUtc, []);
 
         Assert.Equal(participantId, prediction.ParticipantId);
     }
@@ -252,7 +248,7 @@ public sealed class PredictionTests
     [MemberData(nameof(UtcRegistrationTimes))]
     public void Create_WithUtcDateBoundaries_PreservesExactTimestamp(DateTimeOffset registeredAtUtc)
     {
-        var prediction = Prediction.Create(ParticipantA, CreateMatch(MatchAId), 2, 1, registeredAtUtc, []);
+        var prediction = Prediction.Create(ParticipantA, MatchAId, 2, 1, registeredAtUtc, []);
 
         Assert.Equal(registeredAtUtc.Ticks, prediction.RegisteredAtUtc.Ticks);
         Assert.Equal(TimeSpan.Zero, prediction.RegisteredAtUtc.Offset);
@@ -263,10 +259,10 @@ public sealed class PredictionTests
     public void Create_RepeatedWithUnchangedEmptyContext_DoesNotRegisterHiddenState()
     {
         var activePredictions = new List<Prediction>();
-        var match = CreateMatch(MatchAId);
+        var matchId = MatchAId;
 
-        var first = Prediction.Create(ParticipantA, match, 2, 1, RegisteredAtUtc, activePredictions);
-        var second = Prediction.Create(ParticipantA, match, 2, 1, RegisteredAtUtc, activePredictions);
+        var first = Prediction.Create(ParticipantA, matchId, 2, 1, RegisteredAtUtc, activePredictions);
+        var second = Prediction.Create(ParticipantA, matchId, 2, 1, RegisteredAtUtc, activePredictions);
 
         Assert.NotSame(first, second);
         Assert.Equal(first.ParticipantId, second.ParticipantId);
@@ -282,11 +278,11 @@ public sealed class PredictionTests
     public void Create_WhenCallerContextChanges_PreservesIndependentPredictionValues()
     {
         var activePredictions = new List<Prediction>();
-        var first = Prediction.Create(ParticipantA, CreateMatch(MatchAId), 2, 1, RegisteredAtUtc, activePredictions);
+        var first = Prediction.Create(ParticipantA, MatchAId, 2, 1, RegisteredAtUtc, activePredictions);
         activePredictions.Add(first);
         var later = RegisteredAtUtc.AddMinutes(1);
 
-        var second = Prediction.Create(ParticipantB, CreateMatch(MatchBId), 4, 3, later, activePredictions);
+        var second = Prediction.Create(ParticipantB, MatchBId, 4, 3, later, activePredictions);
 
         Assert.Equal(ParticipantA, first.ParticipantId);
         Assert.Equal(MatchAId, first.MatchId);
@@ -300,19 +296,16 @@ public sealed class PredictionTests
         Assert.Equal(later.Ticks, second.RegisteredAtUtc.Ticks);
     }
 
-    // P20: no match-status/kickoff restriction belongs to the current increment.
+    // P20: accept any nonempty match Guid without requiring a Match object or catalog.
     [Theory]
-    [InlineData(MatchStatus.Scheduled)]
-    [InlineData(MatchStatus.InProgress)]
-    [InlineData(MatchStatus.Finished)]
-    [InlineData(MatchStatus.Cancelled)]
-    public void Create_WithEachDefinedMatchStatus_Succeeds(MatchStatus status)
+    [InlineData("00000000-0000-0000-0000-000000000001")]
+    [InlineData("ffffffff-ffff-ffff-ffff-ffffffffffff")]
+    public void Create_WithNonemptyMatchGuidBoundaries_PreservesId(string idText)
     {
-        var prediction = Prediction.Create(ParticipantA, CreateMatch(MatchAId, status), 2, 1, RegisteredAtUtc, []);
+        var matchId = Guid.Parse(idText);
 
-        Assert.Equal(MatchAId, prediction.MatchId);
+        var prediction = Prediction.Create(ParticipantA, matchId, 2, 1, RegisteredAtUtc, []);
+
+        Assert.Equal(matchId, prediction.MatchId);
     }
-
-    private static Match CreateMatch(Guid id, MatchStatus status = MatchStatus.Scheduled) =>
-        new(id, "Argentina", "Bolivia", new DateTimeOffset(2026, 6, 11, 19, 0, 0, TimeSpan.Zero), status);
 }
